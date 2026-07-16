@@ -1,5 +1,5 @@
-import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router-dom";
+import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 import { PhoneIcon } from "@/features/website/components/icons/PhoneIcon";
 import { PinIcon } from "@/features/website/components/icons/PinIcon";
@@ -12,10 +12,10 @@ import { useLocalize } from "@/shared/hooks/useLocalize";
 const MOBILE_MESSENGER_ORDER = ["telegram", "whatsapp", "viber"] as const;
 
 export const MobileLocationCards = () => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const { locations } = useLocations();
   const localize = useLocalize();
-  const { pathname } = useLocation();
+  const pathname = usePathname();
 
   const isContacts = pathname === WEBSITE_ROUTES.contacts;
 

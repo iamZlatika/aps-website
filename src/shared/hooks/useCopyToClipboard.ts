@@ -1,6 +1,7 @@
-import i18next from "i18next";
 import { useState } from "react";
 import { toast } from "sonner";
+
+import { t } from "@/shared/lib/i18n/t";
 
 const COPIED_RESET_MS = 2000;
 
@@ -18,7 +19,7 @@ export function useCopyToClipboard(): {
         setTimeout(() => setCopied(false), COPIED_RESET_MS);
       })
       .catch(() => {
-        toast.error(i18next.t("errors.clipboard_error"));
+        toast.error(t("errors.clipboard_error"));
       });
   };
 

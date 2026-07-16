@@ -1,5 +1,5 @@
 import { Laptop } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 import { formatPrice } from "@/features/website/lib/service";
 import { OrderSectionCard } from "@/features/website/modules/orders/pages/components/OrderSectionCard";
@@ -12,7 +12,7 @@ interface OrderDeviceInfoProps {
 }
 
 export const OrderDeviceInfo = ({ order }: OrderDeviceInfoProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const localize = useLocalize();
 
   const rows = [

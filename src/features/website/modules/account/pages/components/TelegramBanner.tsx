@@ -1,5 +1,5 @@
+import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
 
 import { type CustomerTelegram } from "@/features/auth/website/types";
 import { TelegramIcon } from "@/features/website/components/icons/TelegramIcon";
@@ -11,7 +11,7 @@ interface TelegramBannerProps {
 }
 
 export const TelegramBanner = ({ telegram }: TelegramBannerProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   if (!telegram) return null;

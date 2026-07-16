@@ -1,6 +1,6 @@
 import { Plus } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
 
 import { type CustomerPhone } from "@/features/auth/website/types";
 import { useAddPhone } from "@/features/website/modules/profile/hooks/useAddPhone";
@@ -13,7 +13,7 @@ interface ExtraPhonesSectionProps {
 }
 
 export const ExtraPhonesSection = ({ phones }: ExtraPhonesSectionProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const [isAdding, setIsAdding] = useState(false);
 
   const { submit: addPhone, isPending: isAddPending } = useAddPhone();

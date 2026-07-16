@@ -1,5 +1,6 @@
-import { useTranslation } from "react-i18next";
-import { NavLink } from "react-router-dom";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 import { HeaderAuthArea } from "@/features/website/components/Header/HeaderAuthArea";
 import { NAV_TABS } from "@/features/website/components/Header/HeaderData";
@@ -9,7 +10,8 @@ import { WebsiteLogo } from "@/features/website/components/WebsiteLogo";
 import { cn } from "@/shared/lib/utils";
 
 export const DesktopNav = () => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
+  const pathname = usePathname();
 
   return (
     <nav className="hidden items-center justify-between gap-2 border-b border-ws-line-soft py-[14px] md:flex">
@@ -17,24 +19,24 @@ export const DesktopNav = () => {
         <WebsiteLogo className="text-ws-ink" />
 
         <ul className="flex h-[53px] items-center gap-[2px] rounded-full border border-ws-line bg-white/[0.015] px-[5px]">
-          {NAV_TABS.map(({ labelKey, to, end }) => (
-            <li key={to}>
-              <NavLink
-                to={to}
-                end={end}
-                className={({ isActive }) =>
-                  cn(
+          {NAV_TABS.map(({ labelKey, to, end }) => {
+            const isActive = end ? pathname === to : pathname.startsWith(to);
+            return (
+              <li key={to}>
+                <Link
+                  href={to}
+                  className={cn(
                     "whitespace-nowrap rounded-full px-[18px] py-[10px] text-ws-base font-medium no-underline transition-colors duration-200",
                     isActive
                       ? "bg-ws-cream font-semibold text-ws-bg"
                       : "text-ws-ink-soft hover:text-ws-ink",
-                  )
-                }
-              >
-                {t(labelKey)}
-              </NavLink>
-            </li>
-          ))}
+                  )}
+                >
+                  {t(labelKey)}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       </div>
 

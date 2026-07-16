@@ -1,4 +1,4 @@
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 interface HamburgerButtonProps {
   isOpen: boolean;
@@ -6,7 +6,7 @@ interface HamburgerButtonProps {
 }
 
 export const HamburgerButton = ({ isOpen, onClick }: HamburgerButtonProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
 
   return (
     <button

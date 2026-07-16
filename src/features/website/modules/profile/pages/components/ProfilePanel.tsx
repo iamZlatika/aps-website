@@ -1,7 +1,7 @@
 import { Check, ChevronLeft, Info, Lock, Phone, X } from "lucide-react";
+import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
 
 import { type Customer } from "@/features/auth/website/types";
 import { CUSTOMER_ACCOUNT_LINKS } from "@/features/website/modules/account/navigation";
@@ -21,7 +21,7 @@ const inputClass =
   "w-full rounded-ws-md border border-ws-line bg-ws-input-bg py-[13px] pl-[42px] pr-[40px] font-[inherit] text-ws-md font-medium text-ws-ink disabled:cursor-not-allowed disabled:opacity-55";
 
 export const ProfilePanel = ({ customer }: ProfilePanelProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [isPhoneModalOpen, setIsPhoneModalOpen] = useState(false);
   const [phoneModalKey, setPhoneModalKey] = useState(0);
@@ -35,7 +35,7 @@ export const ProfilePanel = ({ customer }: ProfilePanelProps) => {
   return (
     <div className="max-w-[800px]">
       <Link
-        to={CUSTOMER_ACCOUNT_LINKS.root()}
+        href={CUSTOMER_ACCOUNT_LINKS.root()}
         className="mb-[18px] inline-flex items-center gap-2 border-0 bg-transparent p-0 font-[inherit] text-ws-base font-semibold text-ws-ink-soft no-underline transition-colors duration-150 hover:text-ws-ember-bright"
       >
         <ChevronLeft className="size-[15px]" aria-hidden="true" />

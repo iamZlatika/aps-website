@@ -1,8 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Check, Pencil, User, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
 import { type Customer } from "@/features/auth/website/types";
@@ -24,7 +24,7 @@ const fieldClass =
   "w-full truncate rounded-ws-md border border-ws-line bg-ws-input-bg py-[13px] pl-[42px] font-[inherit] text-ws-md font-medium text-ws-ink focus:outline-none focus:ring-1 focus:ring-ws-ember-bright";
 
 export const ProfileNameField = ({ customer }: ProfileNameFieldProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const [isEditing, setIsEditing] = useState(false);
   const displayName = customer.portalName ?? t("cabinet.defaultName");
 

@@ -1,6 +1,6 @@
 import { Lock } from "lucide-react";
+import { useTranslations } from "next-intl";
 import type { UseFormRegisterReturn } from "react-hook-form";
-import { useTranslation } from "react-i18next";
 
 import { cn } from "@/shared/lib/utils";
 
@@ -33,7 +33,7 @@ export const RegistrationPasswordFields = ({
   confirmError,
   strength,
 }: RegistrationPasswordFieldsProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
 
   return (
     <div className="grid grid-cols-2 gap-[14px]">

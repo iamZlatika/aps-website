@@ -1,4 +1,4 @@
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 import { GoogleSpinnerIcon } from "@/features/website/pages/reviews/GoogleSpinnerIcon";
 
@@ -7,7 +7,7 @@ interface ReviewBranchNoteProps {
 }
 
 export const ReviewBranchNote = ({ address }: ReviewBranchNoteProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
 
   return (
     <div className="mb-5 flex items-center gap-2.5 text-ws-sm text-ws-ink-soft">

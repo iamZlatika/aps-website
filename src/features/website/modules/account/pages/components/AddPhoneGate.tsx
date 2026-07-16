@@ -1,11 +1,11 @@
 import { Smartphone } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 
 import { PhoneFlowForm } from "@/features/website/components/PhoneFlow/PhoneFlowForm";
 
 export const AddPhoneGate = () => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
 
   return (
     <div className="max-w-[620px] rounded-ws-card border border-[rgba(238,122,58,.26)] bg-[rgba(238,122,58,.07)] px-[32px] py-[30px] max-[560px]:px-[20px] max-[560px]:py-[24px]">

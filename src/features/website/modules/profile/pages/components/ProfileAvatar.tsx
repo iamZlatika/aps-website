@@ -1,6 +1,6 @@
 import { Camera, Loader2, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { lazy, Suspense, useRef } from "react";
-import { useTranslation } from "react-i18next";
 
 import { type Customer } from "@/features/auth/website/types";
 import { getInitial } from "@/features/website/lib/service";
@@ -17,7 +17,7 @@ interface ProfileAvatarProps {
 }
 
 export const ProfileAvatar = ({ customer }: ProfileAvatarProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const {
     selectedImage,

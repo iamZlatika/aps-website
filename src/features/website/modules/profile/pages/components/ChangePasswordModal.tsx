@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Lock } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
 import { WebsiteModal } from "@/features/website/components/WebsiteModal";
@@ -26,7 +26,7 @@ export const ChangePasswordModal = ({
   open,
   onClose,
 }: ChangePasswordModalProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
 
   const {
     register,

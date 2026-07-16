@@ -1,5 +1,5 @@
 import { Cog } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 import { PhoneIcon } from "@/features/website/components/icons/PhoneIcon";
 import { useWebsiteThemeManager } from "@/features/website/hooks/useWebsiteThemeManager";
@@ -11,7 +11,7 @@ import { WebsiteThemeContext } from "@/features/website/websiteTheme";
 import { cn } from "@/shared/lib/utils";
 
 export const MaintenancePage = () => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const themeValue = useWebsiteThemeManager();
 
   return (

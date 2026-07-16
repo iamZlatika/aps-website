@@ -1,7 +1,9 @@
-import type { Metadata } from "next";
-import type { ReactNode } from "react";
-
 import "./globals.css";
+
+import type { Metadata } from "next";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages } from "next-intl/server";
+import type { ReactNode } from "react";
 
 export const metadata: Metadata = {
   title: "APS",
@@ -12,10 +14,17 @@ interface RootLayoutProps {
   children: ReactNode;
 }
 
-export default function RootLayout({ children }: RootLayoutProps) {
+export default async function RootLayout({ children }: RootLayoutProps) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+
   return (
-    <html lang="uk" className="h-full antialiased">
-      <body className="flex min-h-full flex-col">{children}</body>
+    <html lang={locale} className="h-full antialiased">
+      <body className="flex min-h-full flex-col">
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          {children}
+        </NextIntlClientProvider>
+      </body>
     </html>
   );
 }

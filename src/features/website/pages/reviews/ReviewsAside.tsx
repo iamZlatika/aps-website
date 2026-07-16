@@ -1,4 +1,4 @@
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 import { type Location } from "@/entities/location/types";
 import { ExternalLinkIcon } from "@/features/website/components/icons/ExternalLinkIcon";
@@ -16,7 +16,7 @@ export const ReviewsAside = ({
   activeLocation,
   reviews,
 }: ReviewsAsideProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const localize = useLocalize();
   const { avg, dist } = computeReviewStats(reviews.map((r) => r.rating));
   const address = localize(activeLocation.addressRu, activeLocation.addressUa);

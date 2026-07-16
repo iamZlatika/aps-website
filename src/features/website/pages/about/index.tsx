@@ -1,4 +1,4 @@
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 import { PinIcon } from "@/features/website/components/icons/PinIcon";
 import { cn } from "@/shared/lib/utils";
@@ -19,7 +19,7 @@ const SectionLabel = ({ children }: SectionLabelProps) => (
 );
 
 export const AboutPage = () => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
 
   return (
     <section

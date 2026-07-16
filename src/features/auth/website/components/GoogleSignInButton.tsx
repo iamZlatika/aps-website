@@ -1,13 +1,13 @@
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 import { WEBSITE_AUTH_API } from "@/features/auth/website/api/endpoints";
 
 export const GoogleSignInButton = () => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
 
   const handleClick = () => {
     window.location.href =
-      import.meta.env.VITE_API_URL + WEBSITE_AUTH_API.googleRedirect();
+      process.env.NEXT_PUBLIC_API_URL + WEBSITE_AUTH_API.googleRedirect();
   };
 
   return (

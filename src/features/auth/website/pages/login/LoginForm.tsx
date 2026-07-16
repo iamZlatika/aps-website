@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Lock, Mail } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
 
 import { type AuthResponse } from "@/features/auth/website/types";
 import { cn } from "@/shared/lib/utils";
@@ -27,7 +27,7 @@ interface LoginFormProps {
 }
 
 export const LoginForm = ({ onSuccess, onForgotPassword }: LoginFormProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
 
   const {
     register,

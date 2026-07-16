@@ -1,5 +1,5 @@
+import { useTranslations } from "next-intl";
 import { Fragment } from "react";
-import { useTranslation } from "react-i18next";
 
 import { PhoneIcon } from "@/features/website/components/icons/PhoneIcon";
 import { PinIcon } from "@/features/website/components/icons/PinIcon";
@@ -15,7 +15,7 @@ import { useLocalize } from "@/shared/hooks/useLocalize";
 import { cn } from "@/shared/lib/utils";
 
 export const HeaderInfo = () => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const { locations } = useLocations();
   const localize = useLocalize();
 

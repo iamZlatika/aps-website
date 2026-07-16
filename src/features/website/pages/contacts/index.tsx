@@ -1,11 +1,11 @@
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 import { useLocations } from "@/features/website/hooks/useLocations";
 import { OfficeCard } from "@/features/website/pages/contacts/OfficeCard";
 import { useLocalize } from "@/shared/hooks/useLocalize";
 
 export const ContactsPage = () => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const { locations } = useLocations();
   const localize = useLocalize();
 

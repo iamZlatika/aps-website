@@ -1,9 +1,9 @@
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 import { WHY_CARDS } from "./AboutPageData";
 
 export const AboutWhy = () => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
 
   return (
     <div className="mb-14 grid max-w-[980px] grid-cols-3 gap-4 max-[780px]:grid-cols-1">

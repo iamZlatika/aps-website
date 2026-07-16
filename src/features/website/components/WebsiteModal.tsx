@@ -1,7 +1,7 @@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { type ReactNode, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 
 import { cn } from "@/shared/lib/utils";
 
@@ -18,7 +18,7 @@ export const WebsiteModal = ({
   maxWidth = "max-w-[860px]",
   children,
 }: WebsiteModalProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const [container, setContainer] = useState<HTMLElement | null>(null);
 
   useEffect(() => {

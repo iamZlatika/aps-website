@@ -1,5 +1,5 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 import { getPageNumbers } from "@/shared/lib/pagination";
 import { cn } from "@/shared/lib/utils";
@@ -21,7 +21,7 @@ export const OrdersPager = ({
   lastPage,
   onPageChange,
 }: OrdersPagerProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
 
   if (lastPage < 2) return null;
 

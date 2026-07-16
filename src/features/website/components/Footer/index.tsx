@@ -1,6 +1,6 @@
 import { Phone } from "lucide-react";
-import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 import { FooterSocialIcon } from "@/features/website/components/Footer/FooterSocialIcon";
 import { WebsiteLogo } from "@/features/website/components/WebsiteLogo";
@@ -39,7 +39,7 @@ const colHeadClass =
   "mb-[18px] text-ws-xs font-semibold uppercase tracking-[0.16em] text-ws-ink-mute";
 
 export const Footer = () => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const { locations } = useLocations();
   const localize = useLocalize();
   const messengerPhone = locations[0]?.phone;
@@ -70,7 +70,7 @@ export const Footer = () => {
                   {FOOTER_SERVICE_IDS.map((id) => (
                     <li key={id}>
                       <Link
-                        to={`/?${DEVICE_PARAM}=${id}`}
+                        href={`/?${DEVICE_PARAM}=${id}`}
                         className={linkClass}
                       >
                         {t(`devices.items.${id}.name`)}
@@ -79,7 +79,7 @@ export const Footer = () => {
                   ))}
                   <li>
                     <Link
-                      to={`/?${MODAL_PARAM}=${PC_BUILD_MODAL_VALUE}`}
+                      href={`/?${MODAL_PARAM}=${PC_BUILD_MODAL_VALUE}`}
                       className={linkClass}
                     >
                       {t("pcBuild.title")} {t("pcBuild.titleBold")}
@@ -93,7 +93,7 @@ export const Footer = () => {
                 <ul>
                   {COMPANY_LINKS.map(({ labelKey, href }) => (
                     <li key={labelKey}>
-                      <Link to={href} className={linkClass}>
+                      <Link href={href} className={linkClass}>
                         {t(labelKey)}
                       </Link>
                     </li>

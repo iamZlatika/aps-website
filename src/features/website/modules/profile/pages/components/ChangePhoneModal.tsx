@@ -1,4 +1,4 @@
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 
 import { PhoneFlowForm } from "@/features/website/components/PhoneFlow/PhoneFlowForm";
@@ -10,7 +10,7 @@ interface ChangePhoneModalProps {
 }
 
 export const ChangePhoneModal = ({ open, onClose }: ChangePhoneModalProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
 
   return (
     <WebsiteModal open={open} onClose={onClose} maxWidth="max-w-[440px]">

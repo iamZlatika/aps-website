@@ -1,6 +1,6 @@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
+import { useTranslations } from "next-intl";
 import { type ReactNode } from "react";
-import { useTranslation } from "react-i18next";
 
 import { CallButton } from "@/features/website/components/CallButton";
 import { MessengerLabelButton } from "@/features/website/components/MessengerLabelButton";
@@ -22,7 +22,7 @@ export const ContactModalContent = ({
   title,
   text,
 }: ContactModalContentProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const { locations } = useLocations();
   const phone = locations[0]?.phone;
 

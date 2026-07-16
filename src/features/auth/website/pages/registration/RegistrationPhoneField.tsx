@@ -1,5 +1,5 @@
 import { Phone } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { IMaskInput } from "react-imask";
 
 import { extractLocalPhoneDigits } from "@/shared/lib/phone";
@@ -30,7 +30,7 @@ export const RegistrationPhoneField = ({
   error,
   hint,
 }: RegistrationPhoneFieldProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
 
   return (
     <div>

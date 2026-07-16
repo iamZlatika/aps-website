@@ -1,5 +1,5 @@
+import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
 
 import { AuthModalBrand } from "@/features/auth/website/components/AuthModalBrand";
 import { useAuthModal } from "@/features/auth/website/hooks/useAuthModal";
@@ -9,7 +9,7 @@ import { RegistrationEmailSent } from "./RegistrationEmailSent";
 import { RegistrationForm } from "./RegistrationForm";
 
 export const RegistrationModal = () => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const { isRegisterOpen, openLogin, close } = useAuthModal();
 
   const [sentEmail, setSentEmail] = useState<string | null>(null);

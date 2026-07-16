@@ -1,5 +1,5 @@
+import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
 
 import { AuthModalBrand } from "@/features/auth/website/components/AuthModalBrand";
 import { useAuthModal } from "@/features/auth/website/hooks/useAuthModal";
@@ -9,7 +9,7 @@ import { ForgotPasswordForm } from "./ForgotPasswordForm";
 import { ForgotPasswordSent } from "./ForgotPasswordSent";
 
 export const ForgotPasswordModal = () => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const { isForgotOpen, openLogin, close } = useAuthModal();
 
   const [isSent, setIsSent] = useState(false);

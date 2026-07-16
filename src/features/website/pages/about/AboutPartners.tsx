@@ -1,9 +1,9 @@
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 export const AboutPartners = () => {
-  const { t } = useTranslation("website");
-  const rawNetworks = t("about.partnersNetworks", { returnObjects: true });
-  const rawCenters = t("about.partnersCenters", { returnObjects: true });
+  const t = useTranslations();
+  const rawNetworks = t.raw("about.partnersNetworks");
+  const rawCenters = t.raw("about.partnersCenters");
   const partnerNetworks = Array.isArray(rawNetworks)
     ? (rawNetworks as string[])
     : [];

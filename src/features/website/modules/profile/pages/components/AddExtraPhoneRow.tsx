@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Check, Phone, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
 import { IMaskInput } from "react-imask";
 
 import {
@@ -22,7 +22,7 @@ export const AddExtraPhoneRow = ({
   onCancel,
   isPending,
 }: AddExtraPhoneRowProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
 
   const {
     handleSubmit,

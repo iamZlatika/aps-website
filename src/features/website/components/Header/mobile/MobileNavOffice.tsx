@@ -1,4 +1,4 @@
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 import { type Location } from "@/entities/location/types";
 import { PhoneIcon } from "@/features/website/components/icons/PhoneIcon";
@@ -24,7 +24,7 @@ export const MobileNavOffice = ({
   location,
   onClose,
 }: MobileNavOfficeProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const localize = useLocalize();
   const { copied, copy } = useCopyToClipboard();
 

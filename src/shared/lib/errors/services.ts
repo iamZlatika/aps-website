@@ -1,8 +1,8 @@
-import i18next from "i18next";
 import { toast } from "sonner";
 
-import { getSharedServerMessageMap } from "@/shared/lib/errors/serverMessageMap.ts";
-import { captureError } from "@/shared/lib/sentry.ts";
+import { getSharedServerMessageMap } from "@/shared/lib/errors/serverMessageMap";
+import { t } from "@/shared/lib/i18n/t";
+import { captureError } from "@/shared/lib/sentry";
 
 export class ApiError<T = unknown> extends Error {
   readonly __apiError = true as const;
@@ -27,10 +27,7 @@ export function isApiError<T = unknown>(error: unknown): error is ApiError<T> {
   );
 }
 
-export function notifyError(
-  error: unknown,
-  fallback = i18next.t("errors.unknown"),
-) {
+export function notifyError(error: unknown, fallback = t("errors.unknown")) {
   if (!isApiError(error)) {
     captureError(error, { source: "notifyError" });
     toast.error(fallback);
@@ -38,13 +35,13 @@ export function notifyError(
   }
 
   if (error.status === 403) {
-    toast.error(i18next.t("errors.forbidden_action"));
+    toast.error(t("errors.forbidden_action"));
     return;
   }
 
   const SERVER_MESSAGE_MAP: Record<string, string> = {
     ...getSharedServerMessageMap(),
-    "The image failed to upload.": i18next.t("errors.image_upload_failed"),
+    "The image failed to upload.": t("errors.image_upload_failed"),
   };
 
   const message =

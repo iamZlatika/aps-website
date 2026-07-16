@@ -1,6 +1,6 @@
 import { Phone } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 
 import { MESSENGER_ICONS, MESSENGERS } from "@/features/website/config";
 import { useLocations } from "@/features/website/hooks/useLocations";
@@ -14,7 +14,7 @@ interface MobileBottomBarProps {
 }
 
 export const MobileBottomBar = ({ isOpen }: MobileBottomBarProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const { locations } = useLocations();
   const mainPhone = locations[0]?.phone ?? "";
   const [footerVisible, setFooterVisible] = useState(false);

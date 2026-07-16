@@ -1,8 +1,8 @@
 import { Loader2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import type { AvatarEditorRef } from "react-avatar-editor";
 import AvatarEditor from "react-avatar-editor";
-import { useTranslation } from "react-i18next";
 
 import { WebsiteModal } from "@/features/website/components/WebsiteModal";
 
@@ -29,7 +29,7 @@ export const AvatarEditorModal = ({
   onClose,
   onSave,
 }: AvatarEditorModalProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const editorRef = useRef<AvatarEditorRef>(null);
   const [scale, setScale] = useState(INITIAL_SCALE);
 

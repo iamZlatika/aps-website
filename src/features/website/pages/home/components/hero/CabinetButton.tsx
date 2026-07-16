@@ -1,12 +1,12 @@
 import { MoveRight } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 interface CabinetButtonProps {
   onClick: () => void;
 }
 
 export const CabinetButton = ({ onClick }: CabinetButtonProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
 
   return (
     <button

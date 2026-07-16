@@ -1,12 +1,12 @@
 import { Phone } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 interface CallButtonProps {
   phone: string;
 }
 
 export const CallButton = ({ phone }: CallButtonProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
 
   return (
     <a

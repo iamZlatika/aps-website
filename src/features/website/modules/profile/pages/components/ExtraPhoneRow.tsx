@@ -1,5 +1,5 @@
 import { Phone, Trash2 } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 import { type CustomerPhone } from "@/features/auth/website/types";
 
@@ -14,7 +14,7 @@ export const ExtraPhoneRow = ({
   onDelete,
   isDeleting,
 }: ExtraPhoneRowProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
 
   return (
     <div className="relative flex items-center">

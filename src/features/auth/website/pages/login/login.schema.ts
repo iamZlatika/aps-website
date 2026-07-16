@@ -1,16 +1,14 @@
-import i18next from "i18next";
 import { z } from "zod";
 
 import { emailRegex } from "@/shared/lib/constants";
+import { t } from "@/shared/lib/i18n/t";
 
 export const createLoginSchema = () =>
   z.object({
     email: z.string().refine((val) => emailRegex.test(val), {
-      message: i18next.t("validation.email_invalid"),
+      message: t("validation.email_invalid"),
     }),
-    password: z
-      .string()
-      .min(8, { message: i18next.t("validation.password_min") }),
+    password: z.string().min(8, { message: t("validation.password_min") }),
   });
 
 export type LoginFormValues = z.infer<ReturnType<typeof createLoginSchema>>;

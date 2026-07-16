@@ -1,6 +1,6 @@
 import { Loader2, XCircle } from "lucide-react";
-import { useTranslation } from "react-i18next";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 import { AuthModalBrand } from "@/features/auth/website/components/AuthModalBrand";
 import { useResetCheckToken } from "@/features/auth/website/hooks/useResetCheckToken";
@@ -14,9 +14,9 @@ import { WEBSITE_LINKS } from "@/features/website/navigation";
 import { ResetPasswordForm } from "./ResetPasswordForm";
 
 const ResetPasswordPage = () => {
-  const { t } = useTranslation("website");
-  const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
+  const t = useTranslations();
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
   const token = searchParams.get("token") ?? "";
   const email = searchParams.get("email") ?? "";
@@ -25,13 +25,11 @@ const ResetPasswordPage = () => {
   const { isLoading, isSuccess, isError } = useResetCheckToken(token, email);
 
   const handleSuccess = () => {
-    void navigate(`${WEBSITE_LINKS.home}?${MODAL_PARAM}=${LOGIN_MODAL_VALUE}`, {
-      replace: true,
-    });
+    router.replace(`${WEBSITE_LINKS.home}?${MODAL_PARAM}=${LOGIN_MODAL_VALUE}`);
   };
 
   const handleRequestNew = () => {
-    void navigate(
+    router.push(
       `${WEBSITE_LINKS.home}?${MODAL_PARAM}=${FORGOT_PASSWORD_MODAL_VALUE}`,
     );
   };

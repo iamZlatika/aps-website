@@ -1,4 +1,4 @@
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 import { ContactModalContent } from "@/features/website/components/ContactModalContent";
 import { DEVICE_ICONS } from "@/features/website/components/DeviceIcons";
@@ -12,7 +12,7 @@ interface OtherDeviceModalContentProps {
 export const OtherDeviceModalContent = ({
   deviceId,
 }: OtherDeviceModalContentProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
 
   return (
     <ContactModalContent

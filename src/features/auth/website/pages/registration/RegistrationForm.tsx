@@ -1,8 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Mail, User } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { type ReactNode } from "react";
 import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
 
 import { handleFormError } from "@/shared/lib/errors/handleFormError";
 import { cn } from "@/shared/lib/utils";
@@ -64,7 +64,7 @@ interface RegistrationFormProps {
 }
 
 export const RegistrationForm = ({ onSuccess }: RegistrationFormProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
 
   const {
     register,

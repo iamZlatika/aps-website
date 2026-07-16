@@ -1,5 +1,5 @@
 import { MoveRight } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 import { useModalParam } from "@/features/website/hooks/useModalParam";
 import {
@@ -19,7 +19,7 @@ const FEATURE_KEYS = [
 ] as const;
 
 export const PcBuildSection = () => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const { resolvedTheme } = useWebsiteTheme();
   const {
     value: modalParam,

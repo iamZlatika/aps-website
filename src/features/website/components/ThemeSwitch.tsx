@@ -1,4 +1,4 @@
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 import {
   useWebsiteTheme,
@@ -52,7 +52,7 @@ interface ThemeSwitchProps {
 
 export const ThemeSwitch = ({ stretch = false }: ThemeSwitchProps) => {
   const { theme, setTheme } = useWebsiteTheme();
-  const { t } = useTranslation("website");
+  const t = useTranslations();
 
   return (
     <div

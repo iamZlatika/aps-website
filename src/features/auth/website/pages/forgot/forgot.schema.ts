@@ -1,12 +1,12 @@
-import i18next from "i18next";
 import { z } from "zod";
 
 import { emailRegex } from "@/shared/lib/constants";
+import { t } from "@/shared/lib/i18n/t";
 
 export const createForgotSchema = () =>
   z.object({
     email: z.string().refine((val) => emailRegex.test(val), {
-      message: i18next.t("validation.email_invalid"),
+      message: t("validation.email_invalid"),
     }),
   });
 

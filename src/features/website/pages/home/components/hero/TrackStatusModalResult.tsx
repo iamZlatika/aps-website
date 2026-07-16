@@ -1,4 +1,4 @@
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 import { StatusBadge } from "@/features/website/components/StatusBadge";
 import { type OrderPreview } from "@/features/website/types";
@@ -15,7 +15,7 @@ export const TrackStatusModalResult = ({
   data,
   onClose,
 }: OrderPreviewResultProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
 
   return (
     <>

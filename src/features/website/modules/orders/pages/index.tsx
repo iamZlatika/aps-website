@@ -1,6 +1,7 @@
 import { AlertTriangle, ChevronLeft, Package, Wrench } from "lucide-react";
-import { useTranslation } from "react-i18next";
-import { Link, useParams } from "react-router-dom";
+import Link from "next/link";
+import { useParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 import { WebsiteLoader } from "@/features/website/components/Loader";
 import { StatusBadge } from "@/features/website/components/StatusBadge";
@@ -20,7 +21,7 @@ interface OrderDetailPageContentProps {
 const OrderDetailPageContent = ({ orderId }: OrderDetailPageContentProps) => {
   const { order, isLoading, isError, error, refetch } =
     useCustomerOrder(orderId);
-  const { t } = useTranslation("website");
+  const t = useTranslations();
 
   return (
     <QueryPageGuard
@@ -39,7 +40,7 @@ const OrderDetailPageContent = ({ orderId }: OrderDetailPageContentProps) => {
         <div className="ws-wrap">
           <section className="pb-20 pt-12 max-sm:pt-8">
             <Link
-              to={CUSTOMER_ACCOUNT_LINKS.root()}
+              href={CUSTOMER_ACCOUNT_LINKS.root()}
               className="mb-[18px] inline-flex items-center gap-2 border-0 bg-transparent p-0 font-[inherit] text-ws-base font-semibold text-ws-ink-soft no-underline transition-colors duration-150 hover:text-ws-ember-bright"
             >
               <ChevronLeft className="size-[15px]" aria-hidden="true" />
@@ -104,7 +105,7 @@ const OrderDetailPageContent = ({ orderId }: OrderDetailPageContentProps) => {
 };
 
 export const OrderDetailPage = () => {
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams<{ id: string }>() ?? {};
   const orderId = id ? parseInt(id, 10) : NaN;
 
   if (!Number.isFinite(orderId)) {

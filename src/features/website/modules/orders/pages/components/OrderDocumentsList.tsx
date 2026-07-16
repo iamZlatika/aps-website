@@ -1,5 +1,5 @@
 import { Download, FileText } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 import { useDownloadOrderDocument } from "@/features/website/modules/orders/hooks/useDownloadOrderDocument";
 import { OrderSectionCard } from "@/features/website/modules/orders/pages/components/OrderSectionCard";
@@ -19,7 +19,7 @@ export const OrderDocumentsList = ({
   orderId,
   documents,
 }: OrderDocumentsListProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const { download, isPending } = useDownloadOrderDocument();
 
   return (

@@ -1,7 +1,7 @@
 import { CheckCircle, Loader2, XCircle } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
-import { useNavigate, useSearchParams } from "react-router-dom";
 
 import {
   LOGIN_MODAL_VALUE,
@@ -12,9 +12,9 @@ import { WEBSITE_LINKS } from "@/features/website/navigation";
 import { useEmailVerify } from "./useEmailVerify";
 
 const EmailVerifyPage = () => {
-  const { t } = useTranslation("website");
-  const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
+  const t = useTranslations();
+  const searchParams = useSearchParams();
+  const router = useRouter();
   const verifyUrl = searchParams.get("verify_url");
 
   const hasUrl = !!verifyUrl;
@@ -22,12 +22,11 @@ const EmailVerifyPage = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      void navigate(
+      router.replace(
         `${WEBSITE_LINKS.home}?${MODAL_PARAM}=${LOGIN_MODAL_VALUE}`,
-        { replace: true },
       );
     }
-  }, [isSuccess, navigate]);
+  }, [isSuccess, router]);
 
   return (
     <div className="flex min-h-[calc(100vh-var(--ws-header-height))] items-center justify-center p-6">
@@ -63,7 +62,7 @@ const EmailVerifyPage = () => {
               type="button"
               className="ws-btn ws-btn-primary mx-auto mt-6 justify-center"
               onClick={() =>
-                void navigate(
+                router.push(
                   `${WEBSITE_LINKS.home}?${MODAL_PARAM}=${LOGIN_MODAL_VALUE}`,
                 )
               }

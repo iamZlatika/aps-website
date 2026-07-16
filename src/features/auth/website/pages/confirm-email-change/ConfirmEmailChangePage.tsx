@@ -1,8 +1,8 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { Loader2, Mail, XCircle } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
-import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { customerAuthService } from "@/features/auth/lib/authService";
 import { AuthModalBrand } from "@/features/auth/website/components/AuthModalBrand";
@@ -17,9 +17,9 @@ import { queryKeys } from "@/shared/api/queryKeys";
 import { useConfirmEmailChange } from "./useConfirmEmailChange";
 
 const ConfirmEmailChangePage = () => {
-  const { t } = useTranslation("website");
-  const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
+  const t = useTranslations();
+  const searchParams = useSearchParams();
+  const router = useRouter();
   const queryClient = useQueryClient();
 
   const token = searchParams.get("token");
@@ -29,9 +29,9 @@ const ConfirmEmailChangePage = () => {
     if (data) {
       customerAuthService.setToken(data.token);
       queryClient.setQueryData(queryKeys.customer.me(), data.customer);
-      void navigate(CUSTOMER_ACCOUNT_LINKS.root(), { replace: true });
+      router.replace(CUSTOMER_ACCOUNT_LINKS.root());
     }
-  }, [data, navigate, queryClient]);
+  }, [data, router, queryClient]);
 
   const hasToken = !!token;
   const showError = !hasToken || isError;
@@ -66,7 +66,7 @@ const ConfirmEmailChangePage = () => {
               type="button"
               className="ws-btn ws-btn-primary mt-6 w-full justify-center"
               onClick={() =>
-                void navigate(
+                router.push(
                   `${WEBSITE_LINKS.home}?${MODAL_PARAM}=${LOGIN_MODAL_VALUE}`,
                 )
               }

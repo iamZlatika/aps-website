@@ -1,7 +1,7 @@
 import { format, isValid, parseISO } from "date-fns";
 import { Box, ChevronDown, Cog } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useId, useState } from "react";
-import { useTranslation } from "react-i18next";
 
 import { formatPrice } from "@/features/website/lib/service";
 import type { OrderHistoryItem } from "@/features/website/types";
@@ -27,7 +27,7 @@ interface ItemContentProps {
 }
 
 const ItemContent = ({ item, isCurrent }: ItemContentProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const getLocalizedName = useLocalizedName();
 
   if (item.type === "status") {
@@ -140,7 +140,7 @@ export const OrderHistoryAccordion = ({
   titleKey = "track.history.title",
   visibleCount = 4,
 }: OrderHistoryAccordionProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const [isExpanded, setIsExpanded] = useState(false);
   const titleId = useId();
   const listId = useId();

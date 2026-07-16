@@ -1,7 +1,8 @@
-import { useTranslation } from "react-i18next";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
+import { useLocale, useTranslations } from "next-intl";
 
 import { LANG_STORAGE_KEY } from "@/shared/lib/constants";
-import { storageSet } from "@/shared/lib/storage";
 import { cn } from "@/shared/lib/utils";
 import { USER_LANGUAGES, type UserLanguage } from "@/shared/types";
 
@@ -15,13 +16,19 @@ interface LangSwitchProps {
 }
 
 export const LangSwitch = ({ stretch = false }: LangSwitchProps) => {
-  const { i18n, t } = useTranslation("website");
+  const locale = useLocale();
+  const t = useTranslations();
+  const router = useRouter();
   const current: UserLanguage =
-    i18n.language === USER_LANGUAGES.RU ? USER_LANGUAGES.RU : USER_LANGUAGES.UK;
+    locale === USER_LANGUAGES.RU ? USER_LANGUAGES.RU : USER_LANGUAGES.UK;
 
   const handleChange = (lang: UserLanguage) => {
-    void i18n.changeLanguage(lang);
-    storageSet(LANG_STORAGE_KEY, lang);
+    Cookies.set(LANG_STORAGE_KEY, lang, {
+      expires: 365,
+      secure: true,
+      sameSite: "strict",
+    });
+    router.refresh();
   };
 
   return (

@@ -1,11 +1,11 @@
 import { MoveRight } from "lucide-react";
-import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 import { WEBSITE_LINKS } from "@/features/website/navigation";
 
 export const NotFoundPage = () => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
 
   return (
     <section className="ws-section" aria-labelledby="not-found-heading">
@@ -35,7 +35,7 @@ export const NotFoundPage = () => {
         </p>
 
         <Link
-          to={WEBSITE_LINKS.home}
+          href={WEBSITE_LINKS.home}
           className="ws-btn ws-btn-primary mt-8 justify-center"
         >
           {t("notFound.cta")}
@@ -47,25 +47,25 @@ export const NotFoundPage = () => {
           className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-ws-sm"
         >
           <Link
-            to={WEBSITE_LINKS.priceList}
+            href={WEBSITE_LINKS.priceList}
             className="text-ws-ink-soft no-underline transition-colors duration-150 hover:text-ws-ember-bright"
           >
             {t("nav.priceList")}
           </Link>
           <Link
-            to={WEBSITE_LINKS.works}
+            href={WEBSITE_LINKS.works}
             className="text-ws-ink-soft no-underline transition-colors duration-150 hover:text-ws-ember-bright"
           >
             {t("nav.works")}
           </Link>
           <Link
-            to={WEBSITE_LINKS.reviews}
+            href={WEBSITE_LINKS.reviews}
             className="text-ws-ink-soft no-underline transition-colors duration-150 hover:text-ws-ember-bright"
           >
             {t("nav.reviews")}
           </Link>
           <Link
-            to={WEBSITE_LINKS.contacts}
+            href={WEBSITE_LINKS.contacts}
             className="text-ws-ink-soft no-underline transition-colors duration-150 hover:text-ws-ember-bright"
           >
             {t("nav.contacts")}

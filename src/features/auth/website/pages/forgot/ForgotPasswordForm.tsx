@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Mail } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
 
 import { useForgotPassword } from "@/features/auth/website/hooks/useForgotPassword";
 import { cn } from "@/shared/lib/utils";
@@ -25,7 +25,7 @@ interface ForgotPasswordFormProps {
 }
 
 export const ForgotPasswordForm = ({ onSuccess }: ForgotPasswordFormProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
 
   const {
     register,

@@ -1,6 +1,6 @@
 import { ChevronRight } from "lucide-react";
-import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 import { StatusBadge } from "@/features/website/components/StatusBadge";
 import { formatPrice } from "@/features/website/lib/service";
@@ -13,12 +13,12 @@ interface OrderListCardProps {
 }
 
 export const OrderListCard = ({ order }: OrderListCardProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const dueDate = formatDate(order.dueDate);
 
   return (
     <Link
-      to={CUSTOMER_ORDERS_LINKS.detail(order.id)}
+      href={CUSTOMER_ORDERS_LINKS.detail(order.id)}
       className="group grid grid-cols-[154px_1.4fr_150px_120px_30px] items-center gap-[18px] rounded-[14px] border border-ws-line bg-ws-card px-5 py-4 no-underline transition-all duration-150 hover:-translate-y-px hover:border-ws-ember max-[860px]:relative max-[860px]:grid-cols-2 max-[860px]:gap-x-4 max-[860px]:gap-y-3.5 max-[860px]:p-[18px]"
     >
       <span className="text-[13.5px] font-bold tabular-nums tracking-[-0.005em] text-ws-ink max-[860px]:col-span-2 max-[860px]:pr-9">

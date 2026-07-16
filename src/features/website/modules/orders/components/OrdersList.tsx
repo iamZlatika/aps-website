@@ -1,11 +1,11 @@
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 import { OrderListCard } from "@/features/website/modules/orders/components/OrderListCard";
 import { OrdersPager } from "@/features/website/modules/orders/components/OrdersPager";
 import { useCustomerOrders } from "@/features/website/modules/orders/hooks/useCustomerOrders";
 
 export const OrdersList = () => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const { orders, meta, page, setPage, isLoading, isError, refetch } =
     useCustomerOrders();
 

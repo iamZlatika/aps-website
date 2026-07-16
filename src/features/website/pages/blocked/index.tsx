@@ -1,5 +1,5 @@
 import { ShieldAlert } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 import { PhoneIcon } from "@/features/website/components/icons/PhoneIcon";
 import { MESSENGER_ICONS, MESSENGERS } from "@/features/website/config";
@@ -15,7 +15,7 @@ import { WebsiteThemeContext } from "@/features/website/websiteTheme";
 import { cn } from "@/shared/lib/utils";
 
 export const BlockedPage = () => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const themeValue = useWebsiteThemeManager();
 
   return (

@@ -1,5 +1,5 @@
 import { Info, Mail } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 import { cn } from "@/shared/lib/utils";
 
@@ -17,7 +17,7 @@ export const RegistrationEmailSent = ({
   email,
   onBackToLogin,
 }: RegistrationEmailSentProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const { seconds, isRunning, reset } = useCountdown(RESEND_COOLDOWN_SECONDS);
   const { resend, isPending } = useResendEmail();
 

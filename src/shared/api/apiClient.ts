@@ -1,19 +1,12 @@
 import axios, { type AxiosError } from "axios";
-import i18next from "i18next";
 
-import { router } from "@/app/router.ts";
-import {
-  type AuthScope,
-  type AuthService,
-  backofficeAuthService,
-  customerAuthService,
-} from "@/features/auth/lib/authService.ts";
-import { logout } from "@/features/auth/lib/sessionManager.ts";
-import { SharedRoutes } from "@/shared/api/routes.ts";
-import { isSecurityBlockedResponse } from "@/shared/api/securityBlock.ts";
-import { type ServerErrorResponse } from "@/shared/api/types.ts";
-import { ApiError } from "@/shared/lib/errors/services.ts";
-import { captureError } from "@/shared/lib/sentry.ts";
+import { customerAuthService } from "@/features/auth/lib/authService";
+import { SharedRoutes } from "@/shared/api/routes";
+import { isSecurityBlockedResponse } from "@/shared/api/securityBlock";
+import { type ServerErrorResponse } from "@/shared/api/types";
+import { ApiError } from "@/shared/lib/errors/services";
+import { t } from "@/shared/lib/i18n/t";
+import { captureError } from "@/shared/lib/sentry";
 
 declare module "axios" {
   export interface AxiosRequestConfig {
@@ -21,14 +14,8 @@ declare module "axios" {
   }
 }
 
-const getRequestAuthScope = (url?: string): AuthScope =>
-  url?.startsWith("/backoffice") ? "backoffice" : "customer";
-
-const getAuthServiceForScope = (scope: AuthScope): AuthService =>
-  scope === "backoffice" ? backofficeAuthService : customerAuthService;
-
 export const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
@@ -39,8 +26,7 @@ export const apiClient = axios.create({
 
 apiClient.interceptors.request.use(
   (config) => {
-    const scope = getRequestAuthScope(config.url);
-    const token = getAuthServiceForScope(scope).getToken();
+    const token = customerAuthService.getToken();
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -58,25 +44,28 @@ apiClient.interceptors.response.use(
     const status = error.response?.status;
     const data = error.response?.data;
 
-    if (status === 401) {
-      const scope = getRequestAuthScope(error.config?.url);
-      if (getAuthServiceForScope(scope).getToken()) {
-        logout(scope);
-      }
+    // These are forced full-page redirects (session expired, blocked,
+    // maintenance) rather than router.push()-style client navigation —
+    // an axios interceptor runs outside React, with no access to the
+    // App Router's useRouter() hook, and a hard reload is the correct
+    // reset here anyway (clears all in-memory state).
+    if (status === 401 && customerAuthService.getToken()) {
+      customerAuthService.clearToken();
+      window.location.href = "/";
     }
 
     if (isSecurityBlockedResponse(status, data?.message)) {
-      void router.navigate(SharedRoutes.blocked());
+      window.location.href = SharedRoutes.blocked();
     }
 
     if (status === 503) {
-      void router.navigate(SharedRoutes.maintenance());
+      window.location.href = SharedRoutes.maintenance();
     }
 
     const isNetworkError = !error.response && error.code === "ERR_NETWORK";
     const message = isNetworkError
-      ? i18next.t("errors.network")
-      : data?.message || error.message || i18next.t("errors.unknown");
+      ? t("errors.network")
+      : data?.message || error.message || t("errors.unknown");
 
     const apiError = new ApiError(message, status, data);
 

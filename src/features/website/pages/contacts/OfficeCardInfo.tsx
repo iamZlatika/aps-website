@@ -1,4 +1,4 @@
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 import { CopyIcon } from "@/features/website/components/icons/CopyIcon";
 import { ExternalLinkIcon } from "@/features/website/components/icons/ExternalLinkIcon";
@@ -29,7 +29,7 @@ export const OfficeCardInfo = ({
   reviewUrl,
   scheduleLines,
 }: OfficeCardInfoProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const { copied, copy } = useCopyToClipboard();
   const isMobile = useIsMobile(880);
 

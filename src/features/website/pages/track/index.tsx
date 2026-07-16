@@ -1,7 +1,7 @@
 import { Info } from "lucide-react";
+import { useParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
 
 import { WebsiteLoader } from "@/features/website/components/Loader";
 import { OrderHistoryAccordion } from "@/features/website/components/OrderHistoryAccordion";
@@ -12,9 +12,9 @@ import { TrackSpecsTable } from "@/features/website/pages/track/components/Track
 import { QueryPageGuard } from "@/shared/components/errors/QueryPageGuard";
 
 export const TrackPage = () => {
-  const { token = "" } = useParams<{ token: string }>();
+  const { token = "" } = useParams<{ token: string }>() ?? {};
   const { track, isLoading, isError, error, refetch } = useOrderTracking(token);
-  const { t } = useTranslation("website");
+  const t = useTranslations();
 
   const history = useMemo(
     () => (track ? buildOrderHistory(track) : []),

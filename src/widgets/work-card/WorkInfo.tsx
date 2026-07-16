@@ -1,4 +1,4 @@
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 import { type Work, WORK_PHOTO_TYPES } from "@/entities/work/types";
 import { useLocalize } from "@/shared/hooks/useLocalize";
@@ -9,7 +9,7 @@ interface WorkInfoProps {
 }
 
 export const WorkInfo = ({ work, onImageClick }: WorkInfoProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const localize = useLocalize();
 
   const reason = localize(

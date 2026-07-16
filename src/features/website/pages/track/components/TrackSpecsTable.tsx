@@ -1,4 +1,4 @@
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 import { cn } from "@/shared/lib/utils";
 
@@ -15,7 +15,7 @@ export const TrackSpecsTable = ({
   deviceModel,
   accessory,
 }: TrackSpecsTableProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
 
   const rows = [
     { label: t("track.specs.deviceType"), value: deviceType },

@@ -1,5 +1,5 @@
 import { User } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 import { useModalParam } from "@/features/website/hooks/useModalParam";
 import {
@@ -15,7 +15,7 @@ interface HeaderCabinetButtonProps {
 export const HeaderCabinetButton = ({
   className,
 }: HeaderCabinetButtonProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const { set: openModal } = useModalParam(MODAL_PARAM);
 
   return (

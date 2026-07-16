@@ -1,5 +1,5 @@
 import { Info } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 import {
   WARRANTY_CARDS,
@@ -8,7 +8,7 @@ import {
 import { WarrantySection } from "@/features/website/pages/warranty/WarrantySection";
 
 export const WarrantyPage = () => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
 
   return (
     <section

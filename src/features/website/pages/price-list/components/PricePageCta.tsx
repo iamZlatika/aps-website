@@ -1,10 +1,10 @@
 import { Info, Phone } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 import { useLocations } from "@/features/website/hooks/useLocations";
 
 export const PricePageCta = () => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const { locations } = useLocations();
   const phone = locations[0]?.phone;
 

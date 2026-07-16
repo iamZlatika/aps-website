@@ -1,5 +1,5 @@
+import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
 
 import { PinIcon } from "@/features/website/components/icons/PinIcon";
 import { useActiveCount } from "@/features/website/hooks/useActiveCount";
@@ -14,7 +14,7 @@ import { cn } from "@/shared/lib/utils";
 const PERKS = ["hero.perk1", "hero.perk2", "hero.perk3"] as const;
 
 export const Hero = () => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const { resolvedTheme } = useWebsiteTheme();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { locations } = useLocations();

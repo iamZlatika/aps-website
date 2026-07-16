@@ -1,9 +1,9 @@
-import i18next from "i18next";
 import type { FieldValues, Path, UseFormSetError } from "react-hook-form";
 
-import { type ValidationError } from "@/shared/api/types.ts";
-import { getSharedServerMessageMap } from "@/shared/lib/errors/serverMessageMap.ts";
-import { isApiError } from "@/shared/lib/errors/services.ts";
+import { type ValidationError } from "@/shared/api/types";
+import { getSharedServerMessageMap } from "@/shared/lib/errors/serverMessageMap";
+import { isApiError } from "@/shared/lib/errors/services";
+import { t } from "@/shared/lib/i18n/t";
 
 type HandleFormErrorOptions<TFieldValues extends FieldValues> = {
   fieldMap?: Record<string, Path<TFieldValues>>;
@@ -13,9 +13,9 @@ type HandleFormErrorOptions<TFieldValues extends FieldValues> = {
 function getBuiltInMessageMap(): Record<string, string> {
   return {
     ...getSharedServerMessageMap(),
-    "The email has already been taken.": i18next.t("errors.email_taken"),
-    "The new email has already been taken.": i18next.t("errors.email_taken"),
-    "These credentials do not match our records.": i18next.t(
+    "The email has already been taken.": t("errors.email_taken"),
+    "The new email has already been taken.": t("errors.email_taken"),
+    "These credentials do not match our records.": t(
       "errors.invalid_credentials",
     ),
   };
@@ -29,7 +29,7 @@ export function handleFormError<TFieldValues extends FieldValues>(
   if (!isApiError<ValidationError>(error)) {
     setError("root" as Path<TFieldValues>, {
       type: "server",
-      message: i18next.t("errors.unknown"),
+      message: t("errors.unknown"),
     });
     return;
   }
@@ -57,7 +57,7 @@ export function handleFormError<TFieldValues extends FieldValues>(
 
   const mappedMessage = message
     ? (options?.messageMap?.[message] ?? builtInMessageMap[message] ?? message)
-    : i18next.t("errors.server");
+    : t("errors.server");
 
   setError("root" as Path<TFieldValues>, {
     type: "server",

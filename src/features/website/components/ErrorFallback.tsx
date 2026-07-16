@@ -1,8 +1,8 @@
 import * as Sentry from "@sentry/react";
-import i18next from "i18next";
 import { AlertTriangle } from "lucide-react";
 
 import { getErrorDescription } from "@/shared/lib/errors/getErrorDescription";
+import { t } from "@/shared/lib/i18n/t";
 
 interface WebsiteErrorFallbackProps {
   error: unknown;
@@ -22,7 +22,7 @@ export const WebsiteErrorFallback = ({
 
         <div className="flex flex-col gap-2">
           <h2 className="text-xl font-semibold text-ws-ink">
-            {i18next.t("errors.unknown")}
+            {t("errors.unknown")}
           </h2>
           {description && (
             <p className="text-sm text-ws-ink-mute">{description}</p>
@@ -34,7 +34,7 @@ export const WebsiteErrorFallback = ({
           onClick={resetErrorBoundary}
           className="ws-btn ws-btn-ghost"
         >
-          {i18next.t("errors.retry")}
+          {t("errors.retry")}
         </button>
       </div>
     </div>

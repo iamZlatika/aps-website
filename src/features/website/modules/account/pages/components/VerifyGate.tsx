@@ -1,10 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Send, Smartphone } from "lucide-react";
+import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
 import { IMaskInput } from "react-imask";
-import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
 import { useSendPhoneCode } from "@/features/website/hooks/useSendPhoneCode";
@@ -22,7 +22,7 @@ interface VerifyGateProps {
 }
 
 export const VerifyGate = ({ phoneNumber }: VerifyGateProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const [isCodeSent, setIsCodeSent] = useState(false);
   const [countdown, setCountdown] = useState(0);
   const countdownRef = useRef(0);
@@ -105,7 +105,7 @@ export const VerifyGate = ({ phoneNumber }: VerifyGateProps) => {
       <p className="mt-[10px] max-w-[480px] text-[13px] leading-[1.6] text-ws-ink-mute text-pretty">
         {t("cabinet.verifyGateWrongPhoneHint")}{" "}
         <Link
-          to={CUSTOMER_PROFILE_LINKS.root()}
+          href={CUSTOMER_PROFILE_LINKS.root()}
           className="font-semibold text-ws-ember-bright hover:underline"
         >
           {t("cabinet.verifyGateWrongPhoneHintLink")}

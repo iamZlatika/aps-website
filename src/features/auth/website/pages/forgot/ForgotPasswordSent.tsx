@@ -1,5 +1,5 @@
 import { Info, Mail } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 interface ForgotPasswordSentProps {
   onBackToLogin: () => void;
@@ -8,7 +8,7 @@ interface ForgotPasswordSentProps {
 export const ForgotPasswordSent = ({
   onBackToLogin,
 }: ForgotPasswordSentProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
 
   return (
     <div className="text-center">

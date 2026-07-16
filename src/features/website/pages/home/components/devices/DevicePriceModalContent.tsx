@@ -1,7 +1,7 @@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { Info } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 
 import { CallButton } from "@/features/website/components/CallButton";
 import { DEVICE_ICONS } from "@/features/website/components/DeviceIcons";
@@ -23,7 +23,7 @@ export const DevicePriceModalContent = ({
   deviceId,
   categories,
 }: DevicePriceModalContentProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const localize = useLocalize();
   const { priceList } = usePriceList(categories);
   const { locations } = useLocations();

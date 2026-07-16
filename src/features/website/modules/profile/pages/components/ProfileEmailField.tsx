@@ -1,6 +1,6 @@
 import { Check, Clock, Mail } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
 
 import { type Customer } from "@/features/auth/website/types";
 import { ChangeEmailModal } from "@/features/website/modules/profile/pages/components/ChangeEmailModal";
@@ -16,7 +16,7 @@ const fieldClass =
   "w-full truncate rounded-ws-md border border-ws-line bg-ws-input-bg py-[13px] pl-[42px] pr-[40px] font-[inherit] text-ws-md font-medium text-ws-ink";
 
 export const ProfileEmailField = ({ customer }: ProfileEmailFieldProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const isEmailVerified = !!customer.emailVerifiedAt;
 

@@ -1,6 +1,6 @@
+import { useTranslations } from "next-intl";
 import { Suspense, useEffect, useRef } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { useTranslation } from "react-i18next";
 
 import { WebsiteErrorFallback } from "@/features/website/components/ErrorFallback";
 import { usePriceListAll } from "@/features/website/hooks/usePriceListAll";
@@ -71,7 +71,7 @@ const PriceListContent = () => {
 };
 
 const PriceListPage = () => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
 
   return (
     <section

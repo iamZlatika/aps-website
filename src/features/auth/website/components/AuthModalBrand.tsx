@@ -1,7 +1,7 @@
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 export const AuthModalBrand = () => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
 
   return (
     <div className="mb-[22px] flex items-center gap-[11px]">

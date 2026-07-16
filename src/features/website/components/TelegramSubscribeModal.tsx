@@ -1,5 +1,5 @@
 import { Loader2 } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 import { TelegramIcon } from "@/features/website/components/icons/TelegramIcon";
 import { WebsiteModal } from "@/features/website/components/WebsiteModal";
@@ -14,7 +14,7 @@ export const TelegramSubscribeModal = ({
   open,
   onClose,
 }: TelegramSubscribeModalProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const { telegramLink, isPending } = useTelegramSubscribeModal(open);
 
   return (

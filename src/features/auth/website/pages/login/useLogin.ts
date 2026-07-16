@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
 import type { UseFormSetError } from "react-hook-form";
-import { useTranslation } from "react-i18next";
 
 import { websiteAuthApi } from "@/features/auth/website/api";
 import { type AuthResponse } from "@/features/auth/website/types";
@@ -20,7 +20,7 @@ type UseLoginReturn = {
 export const useLogin = (
   setError: UseFormSetError<LoginFormValues>,
 ): UseLoginReturn => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
 
   const mutation = useMutation<AuthResponse, Error, LoginFormValues>({
     mutationFn: (values) =>

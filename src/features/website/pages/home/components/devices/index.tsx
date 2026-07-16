@@ -1,4 +1,4 @@
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 import { useLanding } from "@/features/website/hooks/useLanding";
 import { useModalParam } from "@/features/website/hooks/useModalParam";
@@ -12,7 +12,7 @@ import {
 import { findCheapestCategory } from "@/features/website/pages/home/components/devices/service";
 
 export const DevicesSection = () => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const {
     value: deviceParam,
     set: setDevice,

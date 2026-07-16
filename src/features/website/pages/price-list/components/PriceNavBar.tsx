@@ -1,5 +1,5 @@
+import { useTranslations } from "next-intl";
 import { type RefObject } from "react";
-import { useTranslation } from "react-i18next";
 
 import { useLocalize } from "@/shared/hooks/useLocalize";
 import { cn } from "@/shared/lib/utils";
@@ -20,7 +20,7 @@ export const PriceNavBar = ({
   onSelect,
   navRef,
 }: PriceNavBarProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const localize = useLocalize();
 
   return (

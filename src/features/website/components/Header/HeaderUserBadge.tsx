@@ -1,5 +1,5 @@
-import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 import { useCustomerMe } from "@/features/auth/website/hooks/useCustomerMe";
 import { getInitial } from "@/features/website/lib/service";
@@ -17,7 +17,7 @@ export const HeaderUserBadge = ({
   isLoggingOut,
   showUserName = false,
 }: HeaderUserBadgeProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const { data: customer } = useCustomerMe();
 
   const firstName = customer?.portalName?.split(" ")[0] || "";
@@ -26,7 +26,7 @@ export const HeaderUserBadge = ({
   return (
     <div className="flex items-center gap-2">
       <Link
-        to={CUSTOMER_ACCOUNT_LINKS.root()}
+        href={CUSTOMER_ACCOUNT_LINKS.root()}
         aria-label={firstName}
         className="inline-flex items-center gap-[10px] rounded-full border border-ws-line bg-ws-card py-[7px] pl-[7px] pr-[14px] text-ws-ink no-underline transition-all duration-150 hover:border-ws-ink-mute"
       >

@@ -1,5 +1,5 @@
-import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 import { type Customer } from "@/features/auth/website/types";
 import { CUSTOMER_PROFILE_LINKS } from "@/features/website/modules/profile/navigation";
@@ -9,7 +9,7 @@ interface AccountHeaderProps {
 }
 
 export const AccountHeader = ({ customer }: AccountHeaderProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
 
   const firstName =
     customer?.portalName?.split(" ")[0] || t("cabinet.defaultName");
@@ -24,7 +24,7 @@ export const AccountHeader = ({ customer }: AccountHeaderProps) => {
       </header>
 
       <Link
-        to={CUSTOMER_PROFILE_LINKS.root()}
+        href={CUSTOMER_PROFILE_LINKS.root()}
         className="inline-flex items-center gap-[9px] rounded-ws-sm border border-ws-ember bg-transparent px-[18px] py-[11px] text-ws-base font-semibold text-ws-ember no-underline transition-all duration-150 hover:border-ws-ember-bright hover:text-ws-ember-bright"
       >
         {t("cabinet.profileButton")}

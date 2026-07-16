@@ -1,6 +1,6 @@
 import imageCompression from "browser-image-compression";
+import { useTranslations } from "next-intl";
 import { type ChangeEvent, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
 import { useAvatarDelete } from "@/features/website/modules/profile/hooks/useAvatarDelete";
@@ -20,7 +20,7 @@ type UseAvatarEditorFlowReturn = {
 };
 
 export const useAvatarEditorFlow = (): UseAvatarEditorFlowReturn => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const uploadMutation = useAvatarUpload();
   const deleteMutation = useAvatarDelete();
   const [selectedImage, setSelectedImage] = useState<File | null>(null);

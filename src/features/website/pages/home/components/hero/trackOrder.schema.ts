@@ -1,14 +1,12 @@
-import i18next from "i18next";
 import { z } from "zod";
+
+import { t } from "@/shared/lib/i18n/t";
 
 export const createTrackOrderSchema = () =>
   z.object({
     orderNumber: z
       .string()
-      .regex(
-        /^APS-\d{4}-\d{6}$/,
-        i18next.t("trackModal.invalidFormat", { ns: "website" }),
-      ),
+      .regex(/^APS-\d{4}-\d{6}$/, t("trackModal.invalidFormat")),
   });
 
 export type TrackOrderValues = z.infer<

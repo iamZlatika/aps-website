@@ -1,6 +1,6 @@
+import { useTranslations } from "next-intl";
 import { Suspense, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { useTranslation } from "react-i18next";
 
 import { WebsiteErrorFallback } from "@/features/website/components/ErrorFallback";
 import { useAllLocationReviews } from "@/features/website/hooks/useAllLocationReviews";
@@ -12,7 +12,7 @@ import { ReviewsAside } from "@/features/website/pages/reviews/ReviewsAside";
 import { useLocalize } from "@/shared/hooks/useLocalize";
 
 const ReviewsSkeleton = () => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   return (
     <div className="ws-rv3">
       <div className="ws-rv3-aside flex flex-col gap-5">
@@ -37,7 +37,7 @@ const ReviewsSkeleton = () => {
 const REVIEWS_WALL_PANEL_ID = "reviews-wall-panel";
 
 const ReviewsContent = () => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const localize = useLocalize();
   const { locations } = useLocations();
   const allReviews = useAllLocationReviews(locations);

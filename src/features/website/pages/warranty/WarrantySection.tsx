@@ -1,6 +1,6 @@
 import { ChevronDown } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useId, useState } from "react";
-import { useTranslation } from "react-i18next";
 
 import {
   WARRANTY_STORAGE_RATES,
@@ -27,11 +27,11 @@ export const WarrantySection = ({
   ratesAfterIndex,
   defaultOpen = false,
 }: WarrantySectionProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const bodyId = useId();
 
-  const rawItems = t(itemsKey, { returnObjects: true });
+  const rawItems = t.raw(itemsKey);
   const items = Array.isArray(rawItems) ? (rawItems as string[]) : [];
 
   return (

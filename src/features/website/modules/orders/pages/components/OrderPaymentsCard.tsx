@@ -1,5 +1,5 @@
 import { CreditCard, Plus } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 import { formatPrice } from "@/features/website/lib/service";
 import { OrderSectionCard } from "@/features/website/modules/orders/pages/components/OrderSectionCard";
@@ -19,7 +19,7 @@ export const OrderPaymentsCard = ({
   totalPaid,
   remainingToPay,
 }: OrderPaymentsCardProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
 
   return (
     <OrderSectionCard

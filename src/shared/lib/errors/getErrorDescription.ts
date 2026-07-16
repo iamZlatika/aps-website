@@ -1,10 +1,10 @@
-import i18next from "i18next";
+import { t } from "@/shared/lib/i18n/t";
 
 export function getErrorDescription(
   error: unknown,
   eventId?: string,
 ): string | undefined {
-  if (import.meta.env.DEV) {
+  if (process.env.NODE_ENV !== "production") {
     if (error instanceof Error) return error.message;
     try {
       return typeof error === "string" ? error : JSON.stringify(error);
@@ -14,7 +14,7 @@ export function getErrorDescription(
   }
 
   if (eventId) {
-    return `${i18next.t("errors.error_id")}: ${eventId}`;
+    return `${t("errors.error_id")}: ${eventId}`;
   }
 
   return undefined;

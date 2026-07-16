@@ -1,5 +1,5 @@
+import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
 
 import { Lightbox } from "@/widgets/lightbox";
 
@@ -8,7 +8,7 @@ import { ABOUT_PROCESS_IMAGES } from "./AboutPageData";
 const lightboxImages = ABOUT_PROCESS_IMAGES.map((url) => ({ url }));
 
 export const AboutProcess = () => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   return (

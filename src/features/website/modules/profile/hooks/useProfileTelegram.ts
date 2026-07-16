@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import i18next from "i18next";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 
 import { customerProfileApi } from "@/features/website/modules/profile/api";
@@ -17,6 +17,7 @@ type UseProfileTelegramReturn = {
 
 export const useProfileTelegram = (): UseProfileTelegramReturn => {
   const queryClient = useQueryClient();
+  const t = useTranslations();
 
   const generateMutation = useMutation({
     mutationFn: () => customerProfileApi.generateTelegramLink(),
@@ -27,7 +28,7 @@ export const useProfileTelegram = (): UseProfileTelegramReturn => {
     mutationFn: () => customerProfileApi.revokeTelegramLink(),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.customer.me() });
-      toast.success(i18next.t("cabinet.telegramRevoked", { ns: "website" }));
+      toast.success(t("cabinet.telegramRevoked"));
     },
     onError: (error) => notifyError(error),
   });

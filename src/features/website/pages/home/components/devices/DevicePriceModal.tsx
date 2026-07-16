@@ -1,6 +1,6 @@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
+import { useTranslations } from "next-intl";
 import { Suspense } from "react";
-import { useTranslation } from "react-i18next";
 
 import { WebsiteModal } from "@/features/website/components/WebsiteModal";
 
@@ -29,7 +29,7 @@ export const DevicePriceModal = ({
   deviceId,
   onClose,
 }: DevicePriceModalProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const device = DEVICES.find((d) => d.id === deviceId);
   const categories = device?.categories ?? ([] as readonly string[]);
   const title = deviceId ? t(`devices.items.${deviceId}.name`) : "";

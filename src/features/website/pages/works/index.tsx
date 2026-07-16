@@ -1,6 +1,6 @@
+import { useTranslations } from "next-intl";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { useTranslation } from "react-i18next";
 
 import { WebsiteErrorFallback } from "@/features/website/components/ErrorFallback";
 import { useWorks } from "@/features/website/hooks/useWorks";
@@ -45,7 +45,7 @@ const WorksList = () => {
 };
 
 const WorksPage = () => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
 
   return (
     <section

@@ -42,7 +42,7 @@ export function getMapEmbedSrc(address: string): string {
   const query = isTovaryskaOffice(address)
     ? TOVARYSKA_OFFICE_COORDS
     : encodeURIComponent(address);
-  return `https://www.google.com/maps/embed/v1/place?key=${import.meta.env.VITE_GOOGLE_MAPS_KEY}&q=${query}&zoom=15`;
+  return `https://www.google.com/maps/embed/v1/place?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY}&q=${query}&zoom=15`;
 }
 
 const AVATAR_COLORS = [

@@ -1,6 +1,6 @@
 import { ZoomIn } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { type SyntheticEvent, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 
 import { type Work } from "@/entities/work/types";
 import { cn } from "@/shared/lib/utils";
@@ -20,7 +20,7 @@ export const WorkMedia = ({
   allImages,
   onImageClick,
 }: WorkMediaProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const [orientations, setOrientations] = useState<Record<number, Orientation>>(
     {},
   );

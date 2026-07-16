@@ -1,4 +1,4 @@
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 import { DEVICE_ICONS } from "@/features/website/components/DeviceIcons";
 import { formatPrice } from "@/features/website/lib/service";
@@ -11,7 +11,7 @@ interface DeviceCardProps {
 }
 
 export const DeviceCard = ({ id, onClick, minPrice }: DeviceCardProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const isOther = id === "other";
 
   return (

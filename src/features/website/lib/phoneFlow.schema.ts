@@ -1,6 +1,6 @@
-import i18next from "i18next";
 import { z } from "zod";
 
+import { t } from "@/shared/lib/i18n/t";
 import { phoneField } from "@/shared/lib/zod-helpers";
 
 export const createAddPhoneSchema = () =>
@@ -15,7 +15,7 @@ export type AddPhoneFormValues = z.infer<
 export const createVerifyPhoneCodeSchema = () =>
   z.object({
     code: z.string().regex(/^\d{4}$/, {
-      message: i18next.t("validation.code_invalid"),
+      message: t("validation.code_invalid"),
     }),
   });
 

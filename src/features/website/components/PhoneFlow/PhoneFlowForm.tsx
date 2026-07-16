@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Phone, Send } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
 import { IMaskInput } from "react-imask";
 import { toast } from "sonner";
 
@@ -26,7 +26,7 @@ export const PhoneFlowForm = ({
   onVerifySuccess,
   submitButtonClass,
 }: PhoneFlowFormProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const { isCodeSent, phone, submitPhone, resend, isSending, countdown } =
     useAddPhoneFlow();
 

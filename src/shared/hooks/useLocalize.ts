@@ -1,7 +1,7 @@
-import { useTranslation } from "react-i18next";
+import { useLocale } from "next-intl";
 
 export function useLocalize(): (ru: string, ua: string) => string {
-  const { i18n } = useTranslation();
-  const isUk = i18n.language === "uk";
+  const locale = useLocale();
+  const isUk = locale === "uk";
   return (ru, ua) => (isUk ? ua : ru);
 }

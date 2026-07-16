@@ -1,9 +1,9 @@
-import { useTranslation } from "react-i18next";
+import { useLocale } from "next-intl";
 
 type LocalizedItem = { nameRu: string; nameUa: string };
 
 export function useLocalizedName() {
-  const { i18n } = useTranslation();
-  const isUk = i18n.language === "uk";
+  const locale = useLocale();
+  const isUk = locale === "uk";
   return (item: LocalizedItem) => (isUk ? item.nameUa : item.nameRu);
 }

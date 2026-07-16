@@ -1,5 +1,5 @@
-import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 import { WEBSITE_LINKS } from "@/features/website/navigation";
 import { cn } from "@/shared/lib/utils";
@@ -9,11 +9,11 @@ interface WebsiteLogoProps {
 }
 
 export const WebsiteLogo = ({ className }: WebsiteLogoProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
 
   return (
     <Link
-      to={WEBSITE_LINKS.home}
+      href={WEBSITE_LINKS.home}
       aria-label="APS service"
       className={cn("flex items-center gap-3 no-underline", className)}
     >

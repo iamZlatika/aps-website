@@ -1,5 +1,6 @@
-import { useTranslation } from "react-i18next";
-import { NavLink } from "react-router-dom";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 import { NAV_TABS } from "@/features/website/components/Header/HeaderData";
 import { MobileNavOffice } from "@/features/website/components/Header/mobile/MobileNavOffice";
@@ -14,7 +15,8 @@ interface MobileNavProps {
 }
 
 export const MobileNav = ({ isOpen, close }: MobileNavProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
+  const pathname = usePathname();
   const { locations } = useLocations();
 
   return (
@@ -62,25 +64,25 @@ export const MobileNav = ({ isOpen, close }: MobileNavProps) => {
 
         <nav className="px-5">
           <ul>
-            {NAV_TABS.map(({ labelKey, to, end }) => (
-              <li key={to}>
-                <NavLink
-                  to={to}
-                  end={end}
-                  onClick={close}
-                  className={({ isActive }) =>
-                    cn(
+            {NAV_TABS.map(({ labelKey, to, end }) => {
+              const isActive = end ? pathname === to : pathname.startsWith(to);
+              return (
+                <li key={to}>
+                  <Link
+                    href={to}
+                    onClick={close}
+                    className={cn(
                       "flex items-center justify-between border-b border-ws-line-soft py-3.5 text-ws-lg font-medium no-underline transition-colors duration-200",
                       isActive
                         ? "text-ws-ember-bright"
                         : "text-ws-ink-hi hover:text-ws-ember-bright",
-                    )
-                  }
-                >
-                  {t(labelKey)}
-                </NavLink>
-              </li>
-            ))}
+                    )}
+                  >
+                    {t(labelKey)}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </nav>
 

@@ -1,4 +1,3 @@
-/* eslint-disable react-refresh/only-export-components */
 import { type ReactNode } from "react";
 
 export const SIDEBAR_ICONS: Record<string, ReactNode> = {

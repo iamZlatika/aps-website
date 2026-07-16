@@ -1,7 +1,7 @@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 
 import { type OrderPreview } from "@/features/website/types";
 import { cn } from "@/shared/lib/utils";
@@ -18,7 +18,7 @@ export const TrackStatusModal = ({
   isOpen,
   onClose,
 }: TrackStatusModalProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const [container, setContainer] = useState<HTMLElement | null>(null);
   const [orderPreview, setOrderPreview] = useState<OrderPreview | null>(null);
 

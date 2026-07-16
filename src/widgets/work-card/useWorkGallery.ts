@@ -1,5 +1,5 @@
+import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
 
 import { type Work } from "@/entities/work/types";
 import { type LightboxImage } from "@/widgets/lightbox/utils";
@@ -16,7 +16,7 @@ type WorkGallery = {
 };
 
 export const useWorkGallery = (work: Work): WorkGallery => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   const labels: PhotoLabels = {

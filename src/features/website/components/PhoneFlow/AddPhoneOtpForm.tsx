@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
 import { IMaskInput } from "react-imask";
 import { toast } from "sonner";
 
@@ -25,7 +25,7 @@ export const AddPhoneOtpForm = ({
   isSending,
   onVerifySuccess,
 }: AddPhoneOtpFormProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
 
   const {
     handleSubmit,

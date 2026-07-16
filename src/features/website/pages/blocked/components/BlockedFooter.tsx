@@ -1,4 +1,4 @@
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 import { WebsiteLogo } from "@/features/website/components/WebsiteLogo";
 import { MESSENGER_ICONS, MESSENGERS } from "@/features/website/config";
@@ -7,7 +7,7 @@ import { BLOCKED_PAGE_MESSENGER_PHONE } from "@/features/website/pages/blocked/B
 import { cn } from "@/shared/lib/utils";
 
 export const BlockedFooter = () => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
 
   return (
     <footer className="border-t border-ws-line-soft">

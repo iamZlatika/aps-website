@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Lock } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
 
 import { useResetPassword } from "@/features/auth/website/hooks/useResetPassword";
 import { cn } from "@/shared/lib/utils";
@@ -34,7 +34,7 @@ export const ResetPasswordForm = ({
   email,
   onSuccess,
 }: ResetPasswordFormProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
 
   const {
     register,

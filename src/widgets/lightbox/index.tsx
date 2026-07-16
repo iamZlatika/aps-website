@@ -1,7 +1,7 @@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 
 import { cn } from "@/shared/lib/utils";
 
@@ -14,7 +14,7 @@ interface LightboxProps {
 }
 
 export const Lightbox = ({ images, initialIndex, onClose }: LightboxProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const [index, setIndex] = useState(initialIndex);
 
   const hasPrev = index > 0;

@@ -1,7 +1,7 @@
-import i18next from "i18next";
 import { z } from "zod";
 
 import { phoneRegex } from "@/shared/lib/constants";
+import { t } from "@/shared/lib/i18n/t";
 import { isSupportedMobileOperator } from "@/shared/lib/phone";
 
 export const zodEnumFromConst = <T extends Record<string, string>>(obj: T) =>
@@ -15,14 +15,14 @@ function validatePhoneValue(
   if (!phoneRegex.test(val)) {
     ctx.addIssue({
       code: z.ZodIssueCode.custom,
-      message: message ?? i18next.t("validation.phone_invalid"),
+      message: message ?? t("validation.phone_invalid"),
     });
     return;
   }
   if (!isSupportedMobileOperator(val)) {
     ctx.addIssue({
       code: z.ZodIssueCode.custom,
-      message: i18next.t("validation.phone_operator_invalid"),
+      message: t("validation.phone_operator_invalid"),
     });
   }
 }

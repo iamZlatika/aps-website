@@ -1,5 +1,5 @@
-import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 import { customerAuthService } from "@/features/auth/lib/authService";
 import { AuthModalBrand } from "@/features/auth/website/components/AuthModalBrand";
@@ -15,14 +15,14 @@ interface LoginModalProps {
 }
 
 export const LoginModal = ({ redirectTo }: LoginModalProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const { isLoginOpen, openRegister, openForgot, close } = useAuthModal();
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const handleSuccess = (data: AuthResponse) => {
     customerAuthService.setToken(data.token);
     close();
-    void navigate(redirectTo);
+    router.push(redirectTo);
   };
 
   return (

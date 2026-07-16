@@ -1,4 +1,4 @@
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 import { type PriceListItem } from "@/entities/price-list/types";
 import { formatPrice } from "@/features/website/lib/service";
@@ -9,7 +9,7 @@ interface PriceRowProps {
 }
 
 export const PriceRow = ({ item }: PriceRowProps) => {
-  const { t } = useTranslation("website");
+  const t = useTranslations();
   const localize = useLocalize();
   const note = localize(item.priceNoteRu ?? "", item.priceNoteUk ?? "");
 
