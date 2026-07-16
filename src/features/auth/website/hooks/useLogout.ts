@@ -1,4 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
 import { customerAuthService } from "@/features/auth/lib/authService";
 import { logout as sessionLogout } from "@/features/auth/lib/sessionManager";
@@ -10,6 +11,7 @@ type UseLogoutReturn = {
 };
 
 export const useLogout = (redirectTo: string): UseLogoutReturn => {
+  const router = useRouter();
   const { mutate, isPending: isLoggingOut } = useMutation({
     mutationFn: websiteAuthApi.logout,
     meta: { silent: true },
@@ -21,7 +23,7 @@ export const useLogout = (redirectTo: string): UseLogoutReturn => {
   // notes before changing this.
   const logout = () => {
     const token = customerAuthService.getToken();
-    sessionLogout("customer", redirectTo);
+    sessionLogout(router, redirectTo);
     if (token) mutate(token);
   };
 

@@ -1,50 +1,31 @@
-import { router } from "@/app/router.ts";
-import { AuthRoutes } from "@/features/auth/backoffice/api/routes.ts";
-import {
-  type AuthScope,
-  backofficeAuthService,
-  customerAuthService,
-} from "@/features/auth/lib/authService.ts";
-import { WEBSITE_LINKS } from "@/features/website/navigation.ts";
-import { queryClient } from "@/shared/api/queryClient.ts";
-import { queryKeys } from "@/shared/api/queryKeys.ts";
-import { destroyEcho } from "@/shared/lib/echo.ts";
+import type { useRouter } from "next/navigation";
 
-const isLoggingOutByScope: Record<AuthScope, boolean> = {
-  backoffice: false,
-  customer: false,
-};
+import { WEBSITE_LINKS } from "@/features/website/navigation";
+import { queryClient } from "@/shared/api/queryClient";
+import { queryKeys } from "@/shared/api/queryKeys";
 
-const DEFAULT_REDIRECT_BY_SCOPE: Record<AuthScope, string> = {
-  backoffice: AuthRoutes.linkToLogin(),
-  customer: WEBSITE_LINKS.home,
-};
+import { customerAuthService } from "./authService";
 
-export const logout = (scope: AuthScope, redirectTo?: string) => {
-  if (isLoggingOutByScope[scope]) return;
-  isLoggingOutByScope[scope] = true;
+type Router = ReturnType<typeof useRouter>;
 
-  if (scope === "backoffice") {
-    backofficeAuthService.clearToken();
-    destroyEcho();
-    queryClient.clear();
-  } else {
-    customerAuthService.clearToken();
-  }
+let isLoggingOut = false;
 
-  void router.navigate(redirectTo ?? DEFAULT_REDIRECT_BY_SCOPE[scope]);
+export const logout = (router: Router, redirectTo?: string) => {
+  if (isLoggingOut) return;
+  isLoggingOut = true;
 
-  if (scope === "customer") {
-    // Deferred to the next tick: components like HeaderUserBadge are still
-    // mounted and subscribed to customer.* queries at this point (navigate()
-    // hasn't unmounted them yet). Removing the cache while they're still
-    // active observers makes them refetch immediately with no token.
-    setTimeout(() => {
-      queryClient.removeQueries({ queryKey: queryKeys.customer.all });
-    }, 0);
-  }
+  customerAuthService.clearToken();
+  router.push(redirectTo ?? WEBSITE_LINKS.home);
+
+  // Deferred to the next tick: components like HeaderUserBadge are still
+  // mounted and subscribed to customer.* queries at this point (push()
+  // hasn't unmounted them yet). Removing the cache while they're still
+  // active observers makes them refetch immediately with no token.
+  setTimeout(() => {
+    queryClient.removeQueries({ queryKey: queryKeys.customer.all });
+  }, 0);
 
   queueMicrotask(() => {
-    isLoggingOutByScope[scope] = false;
+    isLoggingOut = false;
   });
 };
