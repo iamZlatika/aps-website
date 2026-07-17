@@ -59,9 +59,7 @@
     "saturdayHours": "сб 10:00–15:00",
     "bottomSlogan": "Складний ремонт",
     "bottomSloganAccent": "— наша стихія.",
-    "devicesInWork_one": "пристрій у роботі зараз",
-    "devicesInWork_few": "пристрої у роботі зараз",
-    "devicesInWork_many": "пристроїв у роботі зараз"
+    "devicesInWork": "{count, plural, one {пристрій у роботі зараз} few {пристрої у роботі зараз} many {пристроїв у роботі зараз} other {пристроїв у роботі зараз}}"
   },
   "devices": {
     "eyebrow": "Що ми ремонтуємо",
@@ -174,7 +172,7 @@
       "title": "Історія замовлення",
       "events": "подій",
       "collapse": "Згорнути",
-      "showMore": "Показати ще {{count}}",
+      "showMore": "Показати ще {count}",
       "statusChanged": "статус змінено",
       "productAdded": "Закуплено деталь",
       "serviceAdded": "Послугу виконано",
@@ -231,7 +229,7 @@
     "heading": "Нас",
     "headingBold": "рекомендують.",
     "scoreLabel": "Оцінка у Google",
-    "reviewsCount": "{{count}} відгуків",
+    "reviewsCount": "{count} відгуків",
     "leaveReview": "Залишити відгук",
     "branchNote": "Останні відгуки з Google для відділення на",
     "empty": "Для цього відділення поки немає відгуків"
@@ -343,8 +341,8 @@
     "newPassword": "Новий пароль",
     "confirmNewPassword": "Підтвердіть новий пароль",
     "passwordChanged": "Пароль успішно змінено",
-    "emailChangeSent": "Лист для підтвердження надіслано на {{email}}",
-    "pendingEmailNotice": "Нова пошта {{email}} очікує підтвердження",
+    "emailChangeSent": "Лист для підтвердження надіслано на {email}",
+    "pendingEmailNotice": "Нова пошта {email} очікує підтвердження",
     "changeEmailLogoutNotice": "Після підтвердження нової пошти потрібно буде увійти в акаунт знову.",
     "save": "Зберегти",
     "cancel": "Скасувати",
@@ -354,7 +352,7 @@
     "verifyGateWrongPhoneHint": "Якщо під час реєстрації ви ввели неправильний номер телефону — його можна змінити",
     "verifyGateWrongPhoneHintLink": "в профілі",
     "getSmsCode": "Отримати SMS-код",
-    "smsCodeSent": "Код надіслано на {{phone}}",
+    "smsCodeSent": "Код надіслано на {phone}",
     "smsCodeLabel": "Код із SMS",
     "confirmCode": "Підтвердити",
     "resendCode": "Надіслати код повторно",
@@ -362,7 +360,7 @@
     "phoneLabel": "Номер телефону",
     "sendSmsCode": "Надіслати SMS-код",
     "noSmsCode": "Не отримали код?",
-    "resendCodeIn": "Надіслати ще раз через {{seconds}}",
+    "resendCodeIn": "Надіслати ще раз через {seconds}",
     "resendCodeNow": "Надіслати ще раз",
     "addPhoneGateTitle": "Додайте номер телефону",
     "addPhoneGateDesc": "Щоб побачити свої замовлення, вкажіть номер телефону, за яким ви залишали заявку в сервіс. Після відправлення ми надішлемо на нього SMS з кодом для підтвердження.",
@@ -385,9 +383,6 @@
     "ordersPagerLabel": "Навігація по сторінках",
     "ordersPagePrev": "Назад",
     "ordersPageNext": "Далі",
-    "ordersCountWord_one": "замовлення",
-    "ordersCountWord_few": "замовлення",
-    "ordersCountWord_many": "замовлень",
     "ordersCostPending": "у ремонті",
     "orderDeviceLabel": "Пристрій",
     "backToOrdersList": "До списку замовлень",
@@ -432,7 +427,8 @@
     "telegramRowNotConnected": "Не підключено",
     "telegramRowDisconnectBtn": "Відключити",
     "telegramRowNeedsVerification": "Підтвердіть номер телефону — і зможете відстежувати статус замовлень просто в Telegram",
-    "telegramRevoked": "Telegram відключено"
+    "telegramRevoked": "Telegram відключено",
+    "ordersCountWord": "{count, plural, one {замовлення} few {замовлення} many {замовлень} other {замовлень}}"
   },
   "registration": {
     "titleLine": "Створити",
@@ -455,7 +451,7 @@
       "action": "Перейдіть за посиланням у листі, щоб завершити реєстрацію та отримати доступ до особистого кабінету.",
       "spamHint": "Не знайшли лист? Перевірте папки «Спам» та «Промоакції».",
       "resend": "Надіслати лист повторно",
-      "resendWait": "Надіслати лист повторно через {{seconds}}",
+      "resendWait": "Надіслати лист повторно через {seconds}",
       "backToLogin": "Повернутися до входу"
     }
   },

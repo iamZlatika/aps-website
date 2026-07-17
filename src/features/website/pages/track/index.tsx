@@ -1,3 +1,5 @@
+"use client";
+
 import { Info } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";

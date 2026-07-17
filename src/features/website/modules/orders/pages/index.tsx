@@ -1,3 +1,5 @@
+"use client";
+
 import { AlertTriangle, ChevronLeft, Package, Wrench } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";

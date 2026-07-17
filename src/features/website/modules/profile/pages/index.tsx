@@ -1,3 +1,5 @@
+"use client";
+
 import { useCustomerMe } from "@/features/auth/website/hooks/useCustomerMe";
 
 import { ProfileHeader } from "./components/ProfileHeader";

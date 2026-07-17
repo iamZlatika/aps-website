@@ -1,3 +1,5 @@
+"use client";
+
 import { useQueryClient } from "@tanstack/react-query";
 import { Loader2, Mail, XCircle } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";

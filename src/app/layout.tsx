@@ -6,6 +6,7 @@ import { getLocale, getMessages } from "next-intl/server";
 import type { ReactNode } from "react";
 
 import { Providers } from "@/app/providers";
+import { WebsiteLayout } from "@/features/website/components/WebsiteLayout";
 
 export const metadata: Metadata = {
   title: "APS",
@@ -24,7 +25,9 @@ export default async function RootLayout({ children }: RootLayoutProps) {
     <html lang={locale} className="h-full antialiased">
       <body className="flex min-h-full flex-col">
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <Providers>{children}</Providers>
+          <Providers>
+            <WebsiteLayout>{children}</WebsiteLayout>
+          </Providers>
         </NextIntlClientProvider>
       </body>
     </html>

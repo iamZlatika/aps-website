@@ -1,3 +1,5 @@
+"use client";
+
 import { useTranslations } from "next-intl";
 import { Suspense, useEffect, useRef } from "react";
 import { ErrorBoundary } from "react-error-boundary";

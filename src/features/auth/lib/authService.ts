@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 
-const COOKIE_NAME = "customer_auth_token";
+export const CUSTOMER_AUTH_COOKIE_NAME = "customer_auth_token";
 
 export type AuthService = {
   getToken: () => string | undefined;
@@ -14,9 +14,9 @@ const createAuthService = (): AuthService => {
   const notify = () => listeners.forEach((listener) => listener());
 
   return {
-    getToken: (): string | undefined => Cookies.get(COOKIE_NAME),
+    getToken: (): string | undefined => Cookies.get(CUSTOMER_AUTH_COOKIE_NAME),
     setToken: (token: string, expiresDays = 365) => {
-      Cookies.set(COOKIE_NAME, token, {
+      Cookies.set(CUSTOMER_AUTH_COOKIE_NAME, token, {
         expires: expiresDays,
         secure: true,
         sameSite: "strict",
@@ -24,7 +24,7 @@ const createAuthService = (): AuthService => {
       notify();
     },
     clearToken: () => {
-      Cookies.remove(COOKIE_NAME);
+      Cookies.remove(CUSTOMER_AUTH_COOKIE_NAME);
       notify();
     },
     subscribe: (listener: () => void) => {

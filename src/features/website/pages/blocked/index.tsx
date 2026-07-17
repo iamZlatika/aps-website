@@ -1,3 +1,5 @@
+"use client";
+
 import { ShieldAlert } from "lucide-react";
 import { useTranslations } from "next-intl";
 

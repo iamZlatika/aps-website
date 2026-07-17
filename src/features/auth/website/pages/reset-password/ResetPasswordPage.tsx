@@ -1,3 +1,5 @@
+"use client";
+
 import { Loader2, XCircle } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";

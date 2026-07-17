@@ -59,9 +59,7 @@
     "saturdayHours": "сб 10:00–15:00",
     "bottomSlogan": "Сложный ремонт",
     "bottomSloganAccent": "— наша стихия.",
-    "devicesInWork_one": "устройство в работе сейчас",
-    "devicesInWork_few": "устройства в работе сейчас",
-    "devicesInWork_many": "устройств в работе сейчас"
+    "devicesInWork": "{count, plural, one {устройство в работе сейчас} few {устройства в работе сейчас} many {устройств в работе сейчас} other {устройств в работе сейчас}}"
   },
   "devices": {
     "eyebrow": "Что мы ремонтируем",
@@ -174,7 +172,7 @@
       "title": "История заказа",
       "events": "событий",
       "collapse": "Свернуть",
-      "showMore": "Показать ещё {{count}}",
+      "showMore": "Показать ещё {count}",
       "statusChanged": "статус изменён",
       "productAdded": "Закуплена деталь",
       "serviceAdded": "Услуга выполнена",
@@ -231,7 +229,7 @@
     "heading": "Нас",
     "headingBold": "рекомендуют.",
     "scoreLabel": "Оценка в Google",
-    "reviewsCount": "{{count}} отзывов",
+    "reviewsCount": "{count} отзывов",
     "leaveReview": "Оставить отзыв",
     "branchNote": "Последние отзывы из Google для отделения на",
     "empty": "Для этого отделения пока нет отзывов"
@@ -343,8 +341,8 @@
     "newPassword": "Новый пароль",
     "confirmNewPassword": "Подтвердите новый пароль",
     "passwordChanged": "Пароль успешно изменён",
-    "emailChangeSent": "Письмо для подтверждения отправлено на {{email}}",
-    "pendingEmailNotice": "Новая почта {{email}} ожидает подтверждения",
+    "emailChangeSent": "Письмо для подтверждения отправлено на {email}",
+    "pendingEmailNotice": "Новая почта {email} ожидает подтверждения",
     "changeEmailLogoutNotice": "После подтверждения новой почты потребуется войти в аккаунт заново.",
     "save": "Сохранить",
     "cancel": "Отмена",
@@ -354,7 +352,7 @@
     "verifyGateWrongPhoneHint": "Если при регистрации вы ввели неправильный номер телефона — его можно изменить",
     "verifyGateWrongPhoneHintLink": "в профиле",
     "getSmsCode": "Получить SMS-код",
-    "smsCodeSent": "Код отправлен на {{phone}}",
+    "smsCodeSent": "Код отправлен на {phone}",
     "smsCodeLabel": "Код из SMS",
     "confirmCode": "Подтвердить",
     "resendCode": "Отправить код повторно",
@@ -362,7 +360,7 @@
     "phoneLabel": "Номер телефона",
     "sendSmsCode": "Отправить SMS-код",
     "noSmsCode": "Не получили код?",
-    "resendCodeIn": "Отправить снова через {{seconds}}",
+    "resendCodeIn": "Отправить снова через {seconds}",
     "resendCodeNow": "Отправить снова",
     "addPhoneGateTitle": "Добавьте номер телефона",
     "addPhoneGateDesc": "Чтобы увидеть свои заказы, укажите номер телефона, по которому вы оставляли заявку в сервис. После отправки мы пришлём на него SMS с кодом для подтверждения.",
@@ -385,9 +383,6 @@
     "ordersPagerLabel": "Навигация по страницам",
     "ordersPagePrev": "Назад",
     "ordersPageNext": "Далее",
-    "ordersCountWord_one": "заказ",
-    "ordersCountWord_few": "заказа",
-    "ordersCountWord_many": "заказов",
     "ordersCostPending": "в ремонте",
     "orderDeviceLabel": "Устройство",
     "backToOrdersList": "К списку заказов",
@@ -432,7 +427,8 @@
     "telegramRowNotConnected": "Не подключено",
     "telegramRowDisconnectBtn": "Отключить",
     "telegramRowNeedsVerification": "Подтвердите номер телефона — и сможете отслеживать статус заказов прямо в Telegram",
-    "telegramRevoked": "Telegram отключён"
+    "telegramRevoked": "Telegram отключён",
+    "ordersCountWord": "{count, plural, one {заказ} few {заказа} many {заказов} other {заказов}}"
   },
   "registration": {
     "titleLine": "Создать",
@@ -455,7 +451,7 @@
       "action": "Перейдите по ссылке в письме, чтобы завершить регистрацию и получить доступ к личному кабинету.",
       "spamHint": "Не нашли письмо? Проверьте папки «Спам» и «Промоакции».",
       "resend": "Запросить письмо повторно",
-      "resendWait": "Запросить письмо повторно через {{seconds}}",
+      "resendWait": "Запросить письмо повторно через {seconds}",
       "backToLogin": "Вернуться ко входу"
     }
   },
