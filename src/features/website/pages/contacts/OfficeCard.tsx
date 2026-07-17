@@ -1,3 +1,5 @@
+"use client";
+
 import { type Location } from "@/entities/location/types";
 import { parseScheduleLines } from "@/features/website/lib/service";
 import { OfficeCardInfo } from "@/features/website/pages/contacts/OfficeCardInfo";

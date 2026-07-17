@@ -1,18 +1,22 @@
-"use client";
+import { getLocale, getTranslations } from "next-intl/server";
 
-import { useTranslations } from "next-intl";
-
-import { useLocations } from "@/features/website/hooks/useLocations";
+import { websiteServerApi } from "@/features/website/api/server";
+import { buildLocalBusinessJsonLd } from "@/features/website/lib/jsonLd";
 import { OfficeCard } from "@/features/website/pages/contacts/OfficeCard";
-import { useLocalize } from "@/shared/hooks/useLocalize";
+import { USER_LANGUAGES } from "@/shared/types";
 
-export const ContactsPage = () => {
-  const t = useTranslations();
-  const { locations } = useLocations();
-  const localize = useLocalize();
+export const ContactsPage = async () => {
+  const [t, locale, locations] = await Promise.all([
+    getTranslations(),
+    getLocale(),
+    websiteServerApi.getLocationsInfo(),
+  ]);
+  const isUk = locale === USER_LANGUAGES.UK;
 
   const city = locations[0]
-    ? localize(locations[0].cityRu, locations[0].cityUa)
+    ? isUk
+      ? locations[0].cityUa
+      : locations[0].cityRu
     : "";
 
   return (
@@ -21,6 +25,14 @@ export const ContactsPage = () => {
       aria-labelledby="contacts-heading"
     >
       <div className="ws-wrap">
+        {buildLocalBusinessJsonLd(locations).map((jsonLd, index) => (
+          <script
+            key={index}
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          />
+        ))}
+
         <header className="mb-5">
           <p className="ws-section-eyebrow">{t("contacts.eyebrow")}</p>
           <h1 id="contacts-heading" className="ws-section-title">

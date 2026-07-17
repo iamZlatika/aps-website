@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import type { ReactNode } from "react";
@@ -8,6 +9,10 @@ import {
   MODAL_PARAM,
 } from "@/features/website/lib/modalParams";
 import { WEBSITE_LINKS } from "@/features/website/navigation";
+
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+};
 
 interface CabinetLayoutProps {
   children: ReactNode;

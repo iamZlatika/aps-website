@@ -7,6 +7,7 @@ import type { ReactNode } from "react";
 
 import { Providers } from "@/app/providers";
 import { WebsiteLayout } from "@/features/website/components/WebsiteLayout";
+import { buildOrganizationJsonLd } from "@/features/website/lib/jsonLd";
 
 export const metadata: Metadata = {
   title: "APS",
@@ -24,6 +25,12 @@ export default async function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang={locale} className="h-full antialiased">
       <body className="flex min-h-full flex-col">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(buildOrganizationJsonLd()),
+          }}
+        />
         <NextIntlClientProvider locale={locale} messages={messages}>
           <Providers>
             <WebsiteLayout>{children}</WebsiteLayout>
