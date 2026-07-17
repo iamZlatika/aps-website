@@ -9,7 +9,7 @@ import {
 import { THEME_STORAGE_KEY } from "@/shared/lib/constants";
 import { storageGet, storageSet } from "@/shared/lib/storage";
 
-function getInitialTheme(): WebsiteTheme {
+function readSavedTheme(): WebsiteTheme | null {
   const saved = storageGet(THEME_STORAGE_KEY);
   if (
     saved === WEBSITE_THEMES.LIGHT ||
@@ -17,7 +17,7 @@ function getInitialTheme(): WebsiteTheme {
     saved === WEBSITE_THEMES.SYSTEM
   )
     return saved;
-  return WEBSITE_THEMES.SYSTEM;
+  return null;
 }
 
 function resolveTheme(
@@ -29,10 +29,17 @@ function resolveTheme(
 }
 
 export const useWebsiteThemeManager = (): WebsiteThemeContextValue => {
-  const [theme, setThemeState] = useState<WebsiteTheme>(getInitialTheme);
-  // Starts false to match the server render (no `window` there); corrected
-  // in the effect below right after mount.
+  // Both start at the same value the server renders (no `window`/
+  // `localStorage` there) and get corrected in effects right after mount —
+  // reading localStorage in the useState initializer would make the very
+  // first client render diverge from the server-rendered HTML.
+  const [theme, setThemeState] = useState<WebsiteTheme>(WEBSITE_THEMES.SYSTEM);
   const [systemDark, setSystemDark] = useState(false);
+
+  useEffect(() => {
+    const saved = readSavedTheme();
+    if (saved) setThemeState(saved);
+  }, []);
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-color-scheme: dark)");
