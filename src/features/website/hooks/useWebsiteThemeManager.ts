@@ -30,12 +30,13 @@ function resolveTheme(
 
 export const useWebsiteThemeManager = (): WebsiteThemeContextValue => {
   const [theme, setThemeState] = useState<WebsiteTheme>(getInitialTheme);
-  const [systemDark, setSystemDark] = useState(
-    () => window.matchMedia("(prefers-color-scheme: dark)").matches,
-  );
+  // Starts false to match the server render (no `window` there); corrected
+  // in the effect below right after mount.
+  const [systemDark, setSystemDark] = useState(false);
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-color-scheme: dark)");
+    setSystemDark(mq.matches);
     const handler = (e: MediaQueryListEvent) => setSystemDark(e.matches);
     mq.addEventListener("change", handler);
     return () => mq.removeEventListener("change", handler);
