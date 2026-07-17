@@ -1,53 +1,14 @@
-"use client";
+import { getTranslations } from "next-intl/server";
 
-import { useTranslations } from "next-intl";
-import { Suspense } from "react";
-import { ErrorBoundary } from "react-error-boundary";
-
-import { WebsiteErrorFallback } from "@/features/website/components/ErrorFallback";
-import { useWorks } from "@/features/website/hooks/useWorks";
+import { type Work } from "@/entities/work/types";
 import { WorkCard } from "@/widgets/work-card";
 
-const WorksListSkeleton = () => (
-  <div className="flex flex-col gap-6">
-    {Array.from({ length: 3 }).map((_, i) => (
-      <div
-        key={i}
-        className="overflow-hidden rounded-[20px] border border-ws-line bg-ws-card"
-      >
-        <div className="grid grid-cols-2 max-[860px]:grid-cols-1">
-          <div className="grid grid-cols-2 gap-[2px] bg-ws-line-soft">
-            <div className="aspect-[3/4] animate-pulse bg-ws-bg-3 max-[860px]:aspect-square" />
-            <div className="aspect-[3/4] animate-pulse bg-ws-bg-3 max-[860px]:aspect-square" />
-          </div>
-          <div className="flex flex-col gap-5 p-8">
-            <div className="h-24 animate-pulse rounded-[14px] bg-ws-bg-3" />
-            <div className="flex flex-col gap-2">
-              <div className="h-3 w-32 animate-pulse rounded bg-ws-bg-3" />
-              <div className="h-4 w-full animate-pulse rounded bg-ws-bg-3" />
-              <div className="h-4 w-3/4 animate-pulse rounded bg-ws-bg-3" />
-            </div>
-          </div>
-        </div>
-      </div>
-    ))}
-  </div>
-);
+interface WorksPageProps {
+  works: Work[];
+}
 
-const WorksList = () => {
-  const { works } = useWorks();
-
-  return (
-    <div className="ws-works-list">
-      {works.map((work, i) => (
-        <WorkCard key={work.id} work={work} isReverse={i % 2 !== 0} />
-      ))}
-    </div>
-  );
-};
-
-const WorksPage = () => {
-  const t = useTranslations();
+const WorksPage = async ({ works }: WorksPageProps) => {
+  const t = await getTranslations();
 
   return (
     <section
@@ -62,11 +23,11 @@ const WorksPage = () => {
           </h1>
         </header>
 
-        <ErrorBoundary FallbackComponent={WebsiteErrorFallback}>
-          <Suspense fallback={<WorksListSkeleton />}>
-            <WorksList />
-          </Suspense>
-        </ErrorBoundary>
+        <div className="ws-works-list">
+          {works.map((work, i) => (
+            <WorkCard key={work.id} work={work} isReverse={i % 2 !== 0} />
+          ))}
+        </div>
       </div>
     </section>
   );

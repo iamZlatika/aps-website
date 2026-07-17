@@ -1,3 +1,5 @@
+"use client";
+
 import "./work-card.css";
 
 import { type Work } from "@/entities/work/types";
