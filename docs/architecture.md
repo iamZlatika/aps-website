@@ -420,6 +420,35 @@ keys. For arrays/objects in a message value, use `t.raw(key)`, not `t(key, { ret
 
 Locale is **not** in the URL — matches the old SPA's runtime-toggle UX.
 
+### Why every page is SSR, not SSG/ISR (and why that's a deliberate trade-off)
+
+Reading the locale cookie in `src/i18n/request.ts` (invoked from the root layout, so it
+affects every route) uses `next/headers` `cookies()` — a "dynamic API" in Next.js terms. Any
+route that touches a dynamic API gets fully dynamically rendered (SSR, fresh on every
+request), which overrides the `revalidate` caching set on individual `fetch` calls in
+`api/server.ts`. Confirmed via `next build` output: every content route is `ƒ (Dynamic)`,
+only `sitemap.xml`/`robots.txt` are `○ (Static)`.
+
+This is **not** an SEO problem — SSR pages are fully crawlable, with real content in the
+initial HTML (the entire point of this migration), same as SSG/ISR would be from Google's
+perspective. What ISR/SSG would actually buy here is faster response time and lower hosting
+cost (serving cached/static HTML instead of running a render on every request) — genuinely
+worth it for content that changes rarely (most pages here update roughly once a year, per the
+business), but not a ranking concern.
+
+**The only way to get true SSG/ISR while still supporting two locales** is to move the locale
+out of a cookie and into the URL (`/uk/...`, `/ru/...`), decided via `next-intl`'s middleware-based
+i18n routing instead of a per-request cookie read in the layout — middleware runs separately
+from page rendering and can read the cookie without forcing the whole route dynamic. This was
+evaluated and **deliberately deferred** (not forgotten) — it's real migration work (route
+restructuring under `app/[locale]/`, middleware, `hreflang` via `alternates.languages`,
+updating every `Link`/`redirect()` call, a two-locale `sitemap.ts`), and it would also fix a
+separate pre-existing gap noted in `.claude/docs/SEO_ONPAGE_TEXTS.md`: with locale in a
+cookie, Google only ever indexes one language version of each page, since there's a single
+URL either way. If/when the ISR performance win or the two-language-indexing fix becomes worth
+the effort, this is the path — not Partial Prerendering (still experimental in Next.js as of
+this writing, not worth betting production SEO on).
+
 ---
 
 ## SEO
