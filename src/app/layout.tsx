@@ -6,6 +6,7 @@ import { getLocale, getMessages } from "next-intl/server";
 import type { ReactNode } from "react";
 
 import { Providers } from "@/app/providers";
+import { websiteServerApi } from "@/features/website/api/server";
 import { WebsiteLayout } from "@/features/website/components/WebsiteLayout";
 import { buildOrganizationJsonLd } from "@/features/website/lib/jsonLd";
 
@@ -19,8 +20,11 @@ interface RootLayoutProps {
 }
 
 export default async function RootLayout({ children }: RootLayoutProps) {
-  const locale = await getLocale();
-  const messages = await getMessages();
+  const [locale, messages, locations] = await Promise.all([
+    getLocale(),
+    getMessages(),
+    websiteServerApi.getLocationsInfo(),
+  ]);
 
   return (
     <html lang={locale} className="h-full antialiased">
@@ -33,7 +37,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
         />
         <NextIntlClientProvider locale={locale} messages={messages}>
           <Providers>
-            <WebsiteLayout>{children}</WebsiteLayout>
+            <WebsiteLayout locations={locations}>{children}</WebsiteLayout>
           </Providers>
         </NextIntlClientProvider>
       </body>

@@ -1,8 +1,9 @@
+"use client";
+
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 import { PinIcon } from "@/features/website/components/icons/PinIcon";
-import { useActiveCount } from "@/features/website/hooks/useActiveCount";
 import { useLocations } from "@/features/website/hooks/useLocations";
 import { parseScheduleLines } from "@/features/website/lib/service";
 import { CabinetButton } from "@/features/website/pages/home/components/hero/CabinetButton";
@@ -13,12 +14,15 @@ import { cn } from "@/shared/lib/utils";
 
 const PERKS = ["hero.perk1", "hero.perk2", "hero.perk3"] as const;
 
-export const Hero = () => {
+interface HeroProps {
+  activeCount: number | undefined;
+}
+
+export const Hero = ({ activeCount }: HeroProps) => {
   const t = useTranslations();
   const { resolvedTheme } = useWebsiteTheme();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { locations } = useLocations();
-  const { activeCount } = useActiveCount();
   const firstLocation = locations[0];
   const scheduleLines = firstLocation
     ? parseScheduleLines(firstLocation.scheduleDisplay)

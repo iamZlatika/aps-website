@@ -1,6 +1,7 @@
+"use client";
+
 import { useTranslations } from "next-intl";
 
-import { useLanding } from "@/features/website/hooks/useLanding";
 import { useModalParam } from "@/features/website/hooks/useModalParam";
 import { DEVICE_PARAM } from "@/features/website/lib/modalParams";
 import { DeviceCard } from "@/features/website/pages/home/components/devices/DeviceCard";
@@ -10,15 +11,19 @@ import {
   DEVICES,
 } from "@/features/website/pages/home/components/devices/DevicesData";
 import { findCheapestCategory } from "@/features/website/pages/home/components/devices/service";
+import { type LandingData } from "@/features/website/types";
 
-export const DevicesSection = () => {
+interface DevicesSectionProps {
+  landing: LandingData;
+}
+
+export const DevicesSection = ({ landing }: DevicesSectionProps) => {
   const t = useTranslations();
   const {
     value: deviceParam,
     set: setDevice,
     clear: clearDevice,
   } = useModalParam(DEVICE_PARAM);
-  const { landing } = useLanding();
 
   const selectedId = DEVICES.some((d) => d.id === deviceParam)
     ? (deviceParam as DeviceId)
@@ -44,9 +49,7 @@ export const DevicesSection = () => {
 
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-7">
             {DEVICES.map(({ id, categories }) => {
-              const cheapest = landing
-                ? findCheapestCategory(categories, landing.prices)
-                : null;
+              const cheapest = findCheapestCategory(categories, landing.prices);
               return (
                 <DeviceCard
                   key={id}
