@@ -11,6 +11,7 @@ lerna-debug.log*
 .env.*.local
 
 node_modules
+.claude
 
 # Next.js
 .next
