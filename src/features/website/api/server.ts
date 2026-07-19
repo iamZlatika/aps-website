@@ -40,39 +40,45 @@ export const websiteServerApi = {
   },
 
   getAllWorks: async (): Promise<Work[]> => {
-    const works: Work[] = [];
-    let page = 1;
-    let lastPage = 1;
+    const firstResponse = await getServer<unknown>(
+      `${WEBSITE_API.landingWorks()}?page=1`,
+    );
+    const firstValidated = parseDto(WorksResponseDtoSchema, firstResponse);
+    const { last_page: lastPage } = firstValidated.meta;
 
-    do {
-      const response = await getServer<unknown>(
-        `${WEBSITE_API.landingWorks()}?page=${page}`,
-      );
-      const validated = parseDto(WorksResponseDtoSchema, response);
-      works.push(...validated.data.map(mapWorkDtoToWork));
-      lastPage = validated.meta.last_page;
-      page += 1;
-    } while (page <= lastPage);
+    const remainingPages = await Promise.all(
+      Array.from({ length: lastPage - 1 }, (_, index) => {
+        const page = index + 2;
+        return getServer<unknown>(
+          `${WEBSITE_API.landingWorks()}?page=${page}`,
+        ).then((response) => parseDto(WorksResponseDtoSchema, response));
+      }),
+    );
 
-    return works;
+    return [firstValidated, ...remainingPages].flatMap((validated) =>
+      validated.data.map(mapWorkDtoToWork),
+    );
   },
 
   getAllPriceList: async (): Promise<PriceListItem[]> => {
-    const items: PriceListItem[] = [];
-    let page = 1;
-    let lastPage = 1;
+    const firstResponse = await getServer<unknown>(
+      `${WEBSITE_API.priceList()}?per_page=100&page=1`,
+    );
+    const firstValidated = parseDto(PriceListResponseDtoSchema, firstResponse);
+    const { last_page: lastPage } = firstValidated.meta;
 
-    do {
-      const response = await getServer<unknown>(
-        `${WEBSITE_API.priceList()}?per_page=100&page=${page}`,
-      );
-      const validated = parseDto(PriceListResponseDtoSchema, response);
-      items.push(...validated.data.map(mapPriceListItemDtoToPriceListItem));
-      lastPage = validated.meta.last_page;
-      page += 1;
-    } while (page <= lastPage);
+    const remainingPages = await Promise.all(
+      Array.from({ length: lastPage - 1 }, (_, index) => {
+        const page = index + 2;
+        return getServer<unknown>(
+          `${WEBSITE_API.priceList()}?per_page=100&page=${page}`,
+        ).then((response) => parseDto(PriceListResponseDtoSchema, response));
+      }),
+    );
 
-    return items;
+    return [firstValidated, ...remainingPages].flatMap((validated) =>
+      validated.data.map(mapPriceListItemDtoToPriceListItem),
+    );
   },
 
   getReviews: async (locationId: number): Promise<Review[]> => {
