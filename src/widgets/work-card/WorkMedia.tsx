@@ -66,7 +66,7 @@ export const WorkMedia = ({
         >
           <img
             src={img.url}
-            alt=""
+            alt={img.alt ?? ""}
             loading="lazy"
             onLoad={(e) => handleImgLoad(e, i)}
             className="size-full object-cover"

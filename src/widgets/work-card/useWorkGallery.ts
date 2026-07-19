@@ -2,9 +2,11 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 import { type Work } from "@/entities/work/types";
+import { useLocalize } from "@/shared/hooks/useLocalize";
 import { type LightboxImage } from "@/widgets/lightbox/utils";
 import {
   buildLightboxImages,
+  buildWorkDeviceLabel,
   type PhotoLabels,
 } from "@/widgets/work-card/photoGallery";
 
@@ -17,6 +19,7 @@ type WorkGallery = {
 
 export const useWorkGallery = (work: Work): WorkGallery => {
   const t = useTranslations();
+  const localize = useLocalize();
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   const labels: PhotoLabels = {
@@ -25,7 +28,11 @@ export const useWorkGallery = (work: Work): WorkGallery => {
     upgrade: t("works.tagUpgrade"),
   };
 
-  const allImages = buildLightboxImages(work, labels);
+  const deviceLabel = buildWorkDeviceLabel(
+    work,
+    localize(work.type.nameRu, work.type.nameUk),
+  );
+  const allImages = buildLightboxImages(work, labels, deviceLabel);
 
   const openLightbox = (url: string): void => {
     const index = allImages.findIndex((img) => img.url === url);

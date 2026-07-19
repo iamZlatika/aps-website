@@ -2,6 +2,7 @@ import { useTranslations } from "next-intl";
 
 import { type Work, WORK_PHOTO_TYPES } from "@/entities/work/types";
 import { useLocalize } from "@/shared/hooks/useLocalize";
+import { buildWorkDeviceLabel } from "@/widgets/work-card/photoGallery";
 
 interface WorkInfoProps {
   work: Work;
@@ -17,6 +18,10 @@ export const WorkInfo = ({ work, onImageClick }: WorkInfoProps) => {
     work.reasonUk ?? work.reasonRu ?? "",
   );
   const description = localize(work.descriptionRu, work.descriptionUk);
+  const deviceLabel = buildWorkDeviceLabel(
+    work,
+    localize(work.type.nameRu, work.type.nameUk),
+  );
   const additionalPhotos = work.photos.filter(
     (p) => p.type === WORK_PHOTO_TYPES.ADDITIONAL,
   );
@@ -82,7 +87,7 @@ export const WorkInfo = ({ work, onImageClick }: WorkInfoProps) => {
             >
               <img
                 src={photo.url}
-                alt=""
+                alt={deviceLabel}
                 loading="lazy"
                 className="size-full object-cover"
               />

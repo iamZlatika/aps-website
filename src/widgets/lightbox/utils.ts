@@ -1,5 +1,6 @@
 export type LightboxImage = {
   url: string;
+  alt?: string;
   tag?: string;
   tagVariant?: "before" | "after" | "upgrade";
 };

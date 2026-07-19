@@ -87,7 +87,7 @@ export const Lightbox = ({ images, initialIndex, onClose }: LightboxProps) => {
             <img
               key={current?.url}
               src={current?.url}
-              alt={current?.tag ?? ""}
+              alt={current?.alt ?? current?.tag ?? ""}
               className="block max-h-[85vh] max-w-[90vw] rounded-[14px] object-contain shadow-[0_40px_90px_-30px_rgba(0,0,0,.8)]"
             />
             {(current?.tag || images.length > 1) && (
