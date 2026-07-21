@@ -48,21 +48,30 @@ src/
 │   ├── price-list/        # PriceListItem DTO, domain type, adapter
 │   └── work/               # Work DTO, domain type, adapter
 ├── features/
-│   ├── website/            # The site itself — pages, components, hooks, modules
-│   │   └── modules/         # account, orders, profile — the authenticated customer cabinet
-│   └── auth/
-│       ├── lib/              # authService.ts, sessionManager.ts (customer scope only)
-│       └── website/           # Login/registration/forgot-password modals + auth pages
+│   ├── auth/                # Login/registration/forgot-password modals + auth pages
+│   ├── locations/            # Office list — api/server.ts, useLocations, context.ts, jsonLd.ts (paired with entities/location)
+│   ├── home/, about/, contacts/, price-list/, works/, warranty/, reviews/, track/   # one flat domain per marketing page
+│   ├── maintenance/, blocked/, not-found/     # generic status pages
+│   └── account/, orders/, profile/            # the authenticated customer cabinet
 ├── widgets/                 # Compound components shared across features (lightbox, work-card)
+│   └── site-shell/           # Header, Footer, WebsiteLayout — site-wide chrome that composes across features
 └── shared/
     ├── api/                  # apiClient.ts (axios, client), server.ts (fetch, server), queryClient.ts, queryKeys.ts
-    ├── components/            # Generic UI (errors/QueryPageGuard, PullToRefresh*)
+    ├── components/            # Generic UI: errors/QueryPageGuard, PullToRefresh*, icons/, ui/ (WebsiteModal, StatusBadge, etc.)
     ├── hooks/                 # Shared hooks
-    ├── lib/                    # Utilities, constants, error helpers, i18n/t.ts (non-component translator)
+    ├── lib/                    # Utilities, constants, error helpers, i18n/t.ts (non-component translator), seo.ts, jsonLd.ts
     └── types.ts                # Global enums and shared types
 ```
 
-Each module inside `features/website/modules/<name>/` follows the same structure as the
+This used to be nested one level deeper — `features/website/` and `features/auth/website/`
+— back when `aps-service` also had a sibling `backoffice` scope to disambiguate from. Once
+the website became its own repo, `website` was the only scope left, so it was flattened
+away (mirroring `aps-service`'s later `features/backoffice/modules/<name>` → `features/<name>`
+cleanup once `backoffice` became its only scope). Business/page domains now sit flat under
+`features/`; site-wide chrome that composes across them lives in `widgets/site-shell/`;
+generic feature-agnostic pieces live in `shared/`.
+
+Each business/page domain under `features/` follows the same structure as the
 original project's backoffice modules did:
 
 ```
@@ -84,7 +93,7 @@ modules/<name>/
 
 Same rule as the original project — a type moves to `entities/` only when it's genuinely
 reused by two or more features. In this repo everything under `entities/` is reused by at
-least the top-level `features/website` pages and one customer-cabinet module.
+least one marketing page domain and one customer-cabinet module.
 
 | Entity | Consumers |
 |--------|-----------|
@@ -170,26 +179,26 @@ they're called from a server-side `fetch` or a client-side `axios` call. That's 
 possible to have **two transport entry points** per module calling the same DTO/adapter code:
 
 ```ts
-// api/server.ts — Server Components, generateMetadata, sitemap.ts
-export const websiteServerApi = {
-  getLocationsInfo: async (): Promise<Location[]> => {
-    const response = await getServer<LocationsResponseDto>(WEBSITE_API.locations());
-    const validated = parseDto(LocationsResponseDtoSchema, response);
-    return validated.data.map(mapLocationDtoToLocation);
+// features/price-list/api/server.ts — Server Components, generateMetadata, sitemap.ts
+export const priceListServerApi = {
+  getAllPriceList: async (): Promise<PriceListItem[]> => {
+    const firstResponse = await getServer<unknown>(`${PRICE_LIST_API.priceList()}?per_page=100&page=1`);
+    // ...loops through every page server-side, see the real file for the pagination logic
   },
 };
 
-// api/index.ts — Client Components, via React Query
-export const websiteApi = {
-  getLocationsInfo: async (): Promise<Location[]> => {
-    const response = await get<LocationsResponseDto>(WEBSITE_API.locations());
-    const validated = parseDto(LocationsResponseDtoSchema, response);
-    return validated.data.map(mapLocationDtoToLocation);
+// features/price-list/api/index.ts — Client Components, via React Query
+export const priceListApi = {
+  getPriceList: async (categories: string[]): Promise<PriceListItem[]> => {
+    const response = await get<unknown>(`${PRICE_LIST_API.priceList()}?...`);
+    const validated = parseDto(PriceListResponseDtoSchema, response);
+    return validated.data.map(mapPriceListItemDtoToPriceListItem);
   },
 };
 ```
 
-Not every module needs both — `modules/orders`/`modules/profile` (authenticated, customer-only
+Not every domain needs both — `locations` (site-wide chrome data, always server-fetched once
+in the root layout) only has `api/server.ts`; `orders`/`profile` (authenticated, customer-only
 data) only ever have a client transport, since that data is never needed for a public SSR page.
 
 **Rule:** Never parse a DTO inside a component or hook. Never use raw server shapes in the UI.
@@ -456,13 +465,14 @@ this writing, not worth betting production SEO on).
 The entire point of this repo's existence — worth its own section rather than folding it into
 routing.
 
-- `generateMetadata()` on every `(marketing)` route, driven by `features/website/lib/seo.ts`'s
+- `generateMetadata()` on every `(marketing)` route, driven by `shared/lib/seo.ts`'s
   `buildPageMetadata(key, path)` and the `seo.{page}.title`/`description` i18n keys.
 - `(cabinet)`, `(auth)`, and `/track/[token]` set `robots: { index: false, follow: false }`
   at the layout/page level — not automatic, add it explicitly for anything behind auth.
 - `app/sitemap.ts` / `app/robots.ts` are the source of truth for indexable URLs.
-- JSON-LD (`features/website/lib/jsonLd.ts`): `Organization` site-wide (root layout),
-  `ElectronicsStore` per office (`/contacts`), `AggregateRating`/`Review` (`/reviews`) — all
+- JSON-LD, split per domain: `Organization` site-wide (`shared/lib/jsonLd.ts`, root layout),
+  `ElectronicsStore` per office (`features/locations/lib/jsonLd.ts`, `/contacts`),
+  `AggregateRating`/`Review` (`features/reviews/lib/jsonLd.ts`, `/reviews`) — all
   built from real data the page already fetched, not duplicated fetches just for structured data.
 
 ---
@@ -470,12 +480,13 @@ routing.
 ## Adding a New Public Page
 
 - [ ] `src/app/(marketing)/<route>/page.tsx` — Server Component, `export async function generateMetadata()`
-- [ ] Add the route to `WEBSITE_ROUTES`/`WEBSITE_LINKS` if it needs to be linked from elsewhere
-- [ ] Add a `seo.<key>.title`/`description` entry to both `src/messages/{ru,uk}.json`, wire it in `seo.ts`
+- [ ] Add the route to `WEBSITE_ROUTES`/`WEBSITE_LINKS` (`widgets/site-shell/`) if it needs to
+      be linked from elsewhere
+- [ ] Add a `seo.<key>.title`/`description` entry to both `src/messages/{ru,uk}.json`, wire it in `shared/lib/seo.ts`
 - [ ] Add the URL to `app/sitemap.ts`'s `INDEXED_ROUTES`
-- [ ] If the page needs data: add (or extend) `api/server.ts` for the module, calling the same
+- [ ] If the page needs data: add (or extend) `api/server.ts` for the domain, calling the same
       `dto.ts`/`adapters.ts` as any existing client transport
-- [ ] Fetch directly in the Server Component (`await websiteServerApi.someMethod()`) — no
+- [ ] Fetch directly in the Server Component (`await <domain>ServerApi.someMethod()`) — no
       React Query, no loading state needed
 - [ ] Only add `"use client"` to the specific piece that needs interactivity (a form, a modal,
       scroll-spy nav) — pass server-fetched data down as props rather than having the client

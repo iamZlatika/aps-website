@@ -1,0 +1,77 @@
+import Link from "next/link";
+import { useTranslations } from "next-intl";
+
+import { CUSTOMER_ACCOUNT_LINKS } from "@/features/account/navigation";
+import { useCustomerMe } from "@/features/auth/hooks/useCustomerMe";
+import { getInitial } from "@/shared/lib/format";
+import { cn } from "@/shared/lib/utils";
+
+interface HeaderUserBadgeProps {
+  logout: () => void;
+  isLoggingOut: boolean;
+  showUserName?: boolean;
+}
+
+export const HeaderUserBadge = ({
+  logout,
+  isLoggingOut,
+  showUserName = false,
+}: HeaderUserBadgeProps) => {
+  const t = useTranslations();
+  const { data: customer } = useCustomerMe();
+
+  const firstName = customer?.portalName?.split(" ")[0] || "";
+  const avatarInitial = getInitial(firstName);
+
+  return (
+    <div className="flex items-center gap-2">
+      <Link
+        href={CUSTOMER_ACCOUNT_LINKS.root()}
+        aria-label={firstName}
+        className="inline-flex items-center gap-[10px] rounded-full border border-ws-line bg-ws-card py-[7px] pl-[7px] pr-[14px] text-ws-ink no-underline transition-all duration-150 hover:border-ws-ink-mute"
+      >
+        <span className="flex size-8 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-ws-ember to-ws-ember-deep text-[15px] font-semibold text-white">
+          {customer.avatarUrl ? (
+            <img
+              src={customer.avatarUrl}
+              alt={t("cabinet.defaultName")}
+              className="size-full object-cover"
+            />
+          ) : (
+            avatarInitial
+          )}
+        </span>
+        <span
+          className={cn(
+            "text-[14px] font-semibold tracking-[-0.005em]",
+            showUserName ? "block" : "hidden min-[960px]:block",
+          )}
+        >
+          {firstName}
+        </span>
+      </Link>
+
+      <button
+        type="button"
+        aria-label={t("cabinet.logout")}
+        onClick={logout}
+        disabled={isLoggingOut}
+        className="inline-flex size-[42px] cursor-pointer items-center justify-center rounded-ws-sm border border-ws-line bg-transparent text-ws-ink-soft transition-all duration-150 hover:border-ws-ink-mute hover:text-ws-ink disabled:opacity-55"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={2}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="size-[15px]"
+          aria-hidden="true"
+        >
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+          <path d="m16 17 5-5-5-5M21 12H9" />
+        </svg>
+      </button>
+    </div>
+  );
+};

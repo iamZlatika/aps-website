@@ -1,4 +1,4 @@
-@import "../features/website/styles/website.css";
+@import "../widgets/site-shell/styles/website.css";
 
 @tailwind base;
 @tailwind components;

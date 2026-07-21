@@ -1,8 +1,8 @@
 import type { useRouter } from "next/navigation";
 
-import { WEBSITE_LINKS } from "@/features/website/navigation";
 import { queryClient } from "@/shared/api/queryClient";
 import { queryKeys } from "@/shared/api/queryKeys";
+import { WEBSITE_LINKS } from "@/widgets/site-shell/navigation";
 
 import { customerAuthService } from "./authService";
 

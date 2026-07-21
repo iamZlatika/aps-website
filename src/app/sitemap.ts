@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-import { WEBSITE_ROUTES } from "@/features/website/routes";
+import { WEBSITE_ROUTES } from "@/widgets/site-shell/routes";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "";
 

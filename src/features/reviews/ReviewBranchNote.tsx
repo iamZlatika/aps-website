@@ -1,0 +1,24 @@
+import { useTranslations } from "next-intl";
+
+import { GoogleSpinnerIcon } from "@/features/reviews/GoogleSpinnerIcon";
+
+interface ReviewBranchNoteProps {
+  address: string;
+}
+
+export const ReviewBranchNote = ({ address }: ReviewBranchNoteProps) => {
+  const t = useTranslations();
+
+  return (
+    <div className="mb-5 flex items-center gap-2.5 text-ws-sm text-ws-ink-soft">
+      <GoogleSpinnerIcon
+        className="h-[15px] w-[15px] shrink-0"
+        strokeWidth={6}
+      />
+      <span>
+        {t("reviews.branchNote")}{" "}
+        <b className="font-semibold text-ws-ink">{address}</b>
+      </span>
+    </div>
+  );
+};

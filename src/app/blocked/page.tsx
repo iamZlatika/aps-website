@@ -1,4 +1,4 @@
-import BlockedPage from "@/features/website/pages/blocked";
+import BlockedPage from "@/features/blocked";
 
 export default function Page() {
   return <BlockedPage />;

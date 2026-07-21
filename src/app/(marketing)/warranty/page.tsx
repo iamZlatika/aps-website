@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
-import { buildPageMetadata } from "@/features/website/lib/seo";
-import WarrantyPage from "@/features/website/pages/warranty";
-import { WEBSITE_ROUTES } from "@/features/website/routes";
+import WarrantyPage from "@/features/warranty";
+import { buildPageMetadata } from "@/shared/lib/seo";
+import { WEBSITE_ROUTES } from "@/widgets/site-shell/routes";
 
 export function generateMetadata(): Promise<Metadata> {
   return buildPageMetadata("warranty", WEBSITE_ROUTES.warranty);

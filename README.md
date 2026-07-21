@@ -77,15 +77,19 @@ src/
 │   └── (cabinet)/       # Customer account, server-side auth gate
 ├── entities/          # Shared domain entities (location, order-status, price-list, work)
 ├── features/
-│   ├── website/        # The site itself: pages, components, hooks, account/orders/profile modules
-│   └── auth/            # Customer auth (login/registration/session)
+│   ├── auth/            # Customer auth (login/registration/session)
+│   ├── locations/        # Office list — paired with entities/location
+│   ├── home/, about/, contacts/, price-list/, works/, warranty/, reviews/, track/   # one domain per marketing page
+│   ├── maintenance/, blocked/, not-found/    # generic status pages
+│   └── account/, orders/, profile/           # customer cabinet
 ├── widgets/             # Reusable compound components (lightbox, work-card)
+│   └── site-shell/        # Header, Footer, WebsiteLayout — site-wide chrome
 ├── messages/             # next-intl message files (ru.json, uk.json)
 └── shared/
     ├── api/               # HTTP clients (axios client-side, fetch server-side), query client/keys
-    ├── components/         # Generic UI (error states, pull-to-refresh)
+    ├── components/         # Generic UI (error states, pull-to-refresh, icons, ui/)
     ├── hooks/              # Shared hooks
-    └── lib/                # Utilities, constants, error helpers, i18n
+    └── lib/                # Utilities, constants, error helpers, i18n, seo.ts, jsonLd.ts
 ```
 
 ## Documentation
