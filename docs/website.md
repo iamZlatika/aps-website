@@ -4,7 +4,9 @@ The entire application — there's no backoffice here (see the repo-level README
 split exists). Public marketing pages are server-rendered for SEO; the customer cabinet is
 gated behind a server-side auth check but still mostly client-interactive once loaded.
 
-**Source:** `src/features/website/`, `src/app/` (routing)
+**Source:** `src/features/` (one flat domain per page: `home`, `about`, `contacts`, `works`,
+`reviews`, `price-list`, `warranty`, `track`, plus `locations`, `account`, `orders`, `profile`),
+`src/widgets/site-shell/` (Header/Footer/layout chrome), `src/app/` (routing)
 
 ## Pages
 
@@ -26,8 +28,9 @@ Also present: standalone auth pages under `/auth/*` (email verify, confirm accou
 email change, reset password, Google OAuth callback — see [Auth pages](#auth--utility-pages)),
 and utility pages `not-found`, `maintenance`, `blocked`.
 
-"Server" here means the page component is `async`, fetches via `websiteServerApi`, and has no
-`"use client"` directive — see [architecture.md](architecture.md#server-vs-client-components)
+"Server" here means the page component is `async`, fetches via that domain's own
+`api/server.ts` (e.g. `homeServerApi`, `locationsServerApi`), and has no `"use client"`
+directive — see [architecture.md](architecture.md#server-vs-client-components)
 for the full explanation of the pattern and why some pages are a Server/Client split rather
 than fully one or the other.
 
@@ -47,9 +50,11 @@ app/
 Route groups (the parenthesized names) don't appear in the URL — they're purely for organizing
 files and letting different subtrees have different `layout.tsx`/`metadata`.
 
-`WEBSITE_ROUTES` (`features/website/routes.ts`) still exists as a path-constant registry, even
+`WEBSITE_ROUTES` (`widgets/site-shell/routes.ts`) still exists as a path-constant registry, even
 though App Router doesn't require one the way React Router's `<Route path>` config did — it's
-there so redirects, `generateMetadata`, and `sitemap.ts` don't hardcode path strings:
+there so redirects, `generateMetadata`, and `sitemap.ts` don't hardcode path strings. It lives
+in `widgets/site-shell/` rather than split one-per-page because its main consumers are the
+site-wide Header/Footer nav lists that already live there and need the whole set at once:
 
 ```ts
 export const WEBSITE_ROUTES = {
@@ -57,15 +62,9 @@ export const WEBSITE_ROUTES = {
   contacts: "/contacts",
   works: "/works",
   reviews: "/reviews",
-  track: "/track/:token",
   priceList: "/price-list",
   warranty: "/warranty",
   about: "/about",
-  emailVerify: "/auth/email-verify",
-  confirmAccount: "/auth/confirm-account",
-  confirmEmailChange: "/auth/confirm-email-change",
-  resetPassword: "/auth/reset-password",
-  googleCallback: "/auth/google/callback",
 } as const;
 ```
 
@@ -90,7 +89,7 @@ export const CUSTOMER_PROFILE_ROUTES = { root: "/account/profile" } as const;
 ### Home (`/`)
 
 `app/(marketing)/page.tsx` is an `async` Server Component: fetches landing data once
-(`websiteServerApi.getLanding()`) and passes it down as props — `activeCount` to `Hero`,
+(`homeServerApi.getLanding()`) and passes it down as props — `activeCount` to `Hero`,
 the full `landing` object to `DevicesSection`. Neither section fetches its own data anymore.
 
 Three sections, each a Client Component (they hold interactive state — modals, theme-aware
@@ -121,7 +120,7 @@ specs table (`TrackSpecsTable`).
 ### Price List (`/price-list`)
 
 `app/(marketing)/price-list/page.tsx` is a Server Component: fetches the **entire** price
-list server-side (`websiteServerApi.getAllPriceList()`, looping through all pages internally —
+list server-side (`priceListServerApi.getAllPriceList()`, looping through all pages internally —
 the API caps at 100 items/page), groups it by category (`groupPriceListByCategory`, a pure
 function), and renders the heading directly plus `<PriceListContent groups={groups} />`.
 
@@ -137,7 +136,7 @@ no loading skeleton needed.
 
 ### Contacts (`/contacts`)
 
-Full Server Component. Fetches locations via `websiteServerApi.getLocationsInfo()` (the same
+Full Server Component. Fetches locations via `locationsServerApi.getLocationsInfo()` (the same
 data Header/Footer get from `LocationsContext` — Next's `fetch` cache dedupes the identical
 request within one render pass, so this costs nothing extra), renders one `ElectronicsStore`
 JSON-LD block per office (`buildLocalBusinessJsonLd`, real address/phone from the same data
@@ -152,7 +151,7 @@ components on purpose — see [architecture.md](architecture.md#server-vs-client
 
 ### Works (`/works`)
 
-Full Server Component. `websiteServerApi.getAllWorks()` loops through every page server-side
+Full Server Component. `worksServerApi.getAllWorks()` loops through every page server-side
 (same "fetch it all, no pagination UI" reasoning as price list — the old client version auto-
 fetched every page via a `useEffect` anyway), renders a `WorkCard` (`src/widgets/work-card`)
 per item. `WorkCard.tsx` itself is `"use client"` (image zoom, lightbox gallery state) — it's
@@ -186,26 +185,26 @@ how the server-side redirect works. Everything under `(cabinet)` is a Client Com
 (React Query, same as the pre-migration SPA) — there's no SEO reason to server-render
 authenticated, `noindex` content.
 
-Split across three sibling modules under `src/features/website/modules/`:
+Split across three sibling domains, flat under `src/features/`:
 
-#### `modules/account` — `/account`
+#### `account` — `/account`
 
 Landing page: `AccountHeader` (name/avatar/logout) + `OrdersPanel` (paginated order list via
 `useCustomerOrders`). `VerifyGate`/`AddPhoneGate` prompt phone verification; `TelegramBanner`
 prompts linking Telegram.
 
-#### `modules/orders` — `/account/orders/:id`
+#### `orders` — `/account/orders/:id`
 
 Order detail: device info (`OrderDeviceInfo`), line items (`OrderLineItemsCard`), payments
 (`OrderPaymentsCard`), documents with download (`OrderDocumentsList`, `useDownloadOrderDocument`).
 Reads the `:id` param via `useParams()` from `next/navigation` (not a route prop — this page
 is still a Client Component, same `useCustomerOrder(id)` React Query hook as before).
 
-**Key types** (`modules/orders/types.ts`): `OrderListItem`, `OrderDetail` (extends
+**Key types** (`orders/types.ts`): `OrderListItem`, `OrderDetail` (extends
 `OrderListItem` with `issueType`/`location`/`payments`/`services`/`products`/`documents`),
 `OrderDocument`, `OrderLineItem`.
 
-#### `modules/profile` — `/account/profile`
+#### `profile` — `/account/profile`
 
 Avatar upload/crop (`AvatarEditorModal`, `useAvatarEditorFlow`), name, email change with
 confirmation flow, password change, primary + extra phone numbers, Telegram link/QR
@@ -223,9 +222,8 @@ value in the message JSON, not a plain string), "why us" section, office list wi
 
 ### Auth & Utility Pages
 
-Login, registration, and password/email flows live in `src/features/auth/website/` (not
-`src/features/website/`), wired into `(auth)/auth/*` route folders and reachable from the
-site header/account flows:
+Login, registration, and password/email flows live in `src/features/auth/`, wired into
+`(auth)/auth/*` route folders and reachable from the site header/account flows:
 
 - `email-verify`, `confirm-account`, `confirm-email-change`, `reset-password` — standalone
   pages for links sent by email (e.g. `/auth/email-verify`), all Client Components (read
@@ -233,7 +231,7 @@ site header/account flows:
 - `google-callback` — handles the redirect back from Google OAuth
 - Login, registration, forgot-password are **modals**, not routed pages — rendered inside
   `WebsiteLayout` (so they're mountable from any page) and opened via `useModalParam`, e.g.
-  `?modal=login`. `useModalParam` (`features/website/hooks/useModalParam.ts`) is a thin
+  `?modal=login`. `useModalParam` (`shared/hooks/useModalParam.ts`) is a thin
   wrapper over `next/navigation`'s `useSearchParams`/`useRouter`/`usePathname`.
 
 Utility pages: `not-found` (global 404, `src/app/not-found.tsx`), `maintenance` (503 from the
@@ -309,7 +307,9 @@ CUSTOMER_PROFILE_API = {
 
 ## Key types
 
-Website-specific types: `src/features/website/types.ts`. Shared entity types: `src/entities/`.
+Page-domain types live next to their domain, not in one shared file: `Track`/`OrderPreview`/
+`OrderHistoryItem` in `src/features/track/types.ts`, `Review` in `src/features/reviews/types.ts`,
+`LandingData`/`CategoryMinPrice` in `src/features/home/types.ts`. Shared entity types: `src/entities/`.
 
 **`Track`** — full order data for the tracking page (device specs, financial info, products,
 services, payments, status history, flags).
@@ -352,7 +352,7 @@ status change, payment, product added/deleted, service added/deleted.
 
 ## Layout
 
-`WebsiteLayout` (`features/website/components/WebsiteLayout.tsx`) lives in the **root**
+`WebsiteLayout` (`widgets/site-shell/WebsiteLayout.tsx`) lives in the **root**
 `app/layout.tsx` — not scoped to a single route group, since every route in this repo is
 website content (unlike the original monorepo, where it had to stay out of the backoffice
 tree). It's `"use client"` (holds mobile-nav/theme/pull-to-refresh state) and:
@@ -375,7 +375,7 @@ category nav) use `top: var(--ws-header-height)`.
 `light` / `dark` / `system`, defined in `websiteTheme.ts` as `WEBSITE_THEMES`. Read/change via:
 
 ```ts
-import { useWebsiteTheme } from "@/features/website/websiteTheme";
+import { useWebsiteTheme } from "@/widgets/site-shell/websiteTheme";
 const { theme, resolvedTheme, setTheme } = useWebsiteTheme();
 ```
 
@@ -407,7 +407,7 @@ This repo has **no shadcn/Radix UI kit** beyond `@radix-ui/react-dialog` (used b
 `WebsiteModal`) — the design system was already fully custom before the migration and stayed
 that way; don't introduce shadcn components here.
 
-Messenger button styles (Telegram, Viber, WhatsApp) configured in `config.ts` via `MESSENGERS`/`MESSENGER_ICONS`.
+Messenger button styles (Telegram, Viber, WhatsApp) configured in `widgets/site-shell/lib/messengers.ts` via `MESSENGERS`/`MESSENGER_ICONS`.
 
 ---
 
@@ -416,8 +416,9 @@ Messenger button styles (Telegram, Viber, WhatsApp) configured in `config.ts` vi
 See [architecture.md § SEO](architecture.md#seo) for the full pattern. Quick reference for
 this feature's files:
 
-- `features/website/lib/seo.ts` — `buildPageMetadata(key, path)`, called from every
+- `shared/lib/seo.ts` — `buildPageMetadata(key, path)`, called from every
   `(marketing)` route's `generateMetadata()`
-- `features/website/lib/jsonLd.ts` — `buildOrganizationJsonLd()`, `buildLocalBusinessJsonLd(locations)`, `buildReviewsJsonLd(reviews)`
+- `shared/lib/jsonLd.ts` — `buildOrganizationJsonLd()`; `features/locations/lib/jsonLd.ts` —
+  `buildLocalBusinessJsonLd(locations)`; `features/reviews/lib/jsonLd.ts` — `buildReviewsJsonLd(reviews)`
 - `.claude/docs/SEO_ONPAGE_TEXTS.md` — the source copy (title/description per page, both
   locales) that `seo.*` message keys are built from

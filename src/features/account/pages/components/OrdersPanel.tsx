@@ -1,0 +1,58 @@
+import { AddPhoneGate } from "@/features/account/pages/components/AddPhoneGate";
+import { TelegramBanner } from "@/features/account/pages/components/TelegramBanner";
+import { VerifyGate } from "@/features/account/pages/components/VerifyGate";
+import { type Customer } from "@/features/auth/types";
+import { OrdersList } from "@/features/orders/components/OrdersList";
+
+import { lockedOrders } from "./OrdersPanelData";
+
+interface OrdersPanelProps {
+  customer: Customer;
+}
+
+export const OrdersPanel = ({ customer }: OrdersPanelProps) => {
+  const primaryPhone = customer.phones.find((p) => p.isPrimary);
+
+  const isPhoneVerified = !!primaryPhone?.phoneVerifiedAt;
+
+  if (isPhoneVerified) {
+    return (
+      <>
+        <TelegramBanner telegram={customer.telegram} />
+        <OrdersList />
+      </>
+    );
+  }
+
+  return (
+    <div>
+      {!primaryPhone ? (
+        <AddPhoneGate />
+      ) : (
+        <VerifyGate phoneNumber={primaryPhone.phoneNumber} />
+      )}
+
+      <div
+        className="pointer-events-none mt-[26px] flex select-none flex-col gap-3 opacity-50 blur-[4px]"
+        aria-hidden="true"
+      >
+        {lockedOrders.map((order) => (
+          <div
+            key={order.id}
+            className="flex items-center gap-[18px] rounded-[16px] border border-ws-line bg-ws-card px-[22px] py-5"
+          >
+            <span className="text-ws-sm font-bold tabular-nums tracking-[-0.005em] text-ws-ink">
+              {order.id}
+            </span>
+            <div className="min-w-0 flex-1">
+              <h4 className="mb-1 text-ws-md font-semibold text-ws-ink">
+                {order.device}
+              </h4>
+              <p className="text-ws-xs text-ws-ink-soft">{order.status}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};

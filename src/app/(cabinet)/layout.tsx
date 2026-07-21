@@ -4,11 +4,8 @@ import { redirect } from "next/navigation";
 import type { ReactNode } from "react";
 
 import { CUSTOMER_AUTH_COOKIE_NAME } from "@/features/auth/lib/authService";
-import {
-  LOGIN_MODAL_VALUE,
-  MODAL_PARAM,
-} from "@/features/website/lib/modalParams";
-import { WEBSITE_LINKS } from "@/features/website/navigation";
+import { LOGIN_MODAL_VALUE, MODAL_PARAM } from "@/shared/lib/modalParams";
+import { WEBSITE_LINKS } from "@/widgets/site-shell/navigation";
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },

@@ -1,4 +1,4 @@
-import UserProfilePage from "@/features/website/modules/profile/pages";
+import UserProfilePage from "@/features/profile/pages";
 
 export default function Page() {
   return <UserProfilePage />;

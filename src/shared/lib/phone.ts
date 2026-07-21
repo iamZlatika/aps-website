@@ -1,3 +1,13 @@
+import { stripNonDigits } from "@/shared/lib/utils";
+
+export function formatPhone(raw: string): string {
+  const digits = stripNonDigits(raw);
+  if (digits.length === 12 && digits.startsWith("380")) {
+    return `+380 (${digits.slice(3, 5)}) ${digits.slice(5, 8)}-${digits.slice(8, 10)}-${digits.slice(10, 12)}`;
+  }
+  return raw;
+}
+
 export const MOBILE_OPERATOR_CODES = [
   "50",
   "66",

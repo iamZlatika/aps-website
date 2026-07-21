@@ -1,4 +1,4 @@
-import NotFoundPage from "@/features/website/pages/not-found";
+import NotFoundPage from "@/features/not-found";
 
 export default function NotFound() {
   return <NotFoundPage />;

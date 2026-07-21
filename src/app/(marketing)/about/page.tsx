@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
-import { buildPageMetadata } from "@/features/website/lib/seo";
-import AboutPage from "@/features/website/pages/about";
-import { WEBSITE_ROUTES } from "@/features/website/routes";
+import AboutPage from "@/features/about";
+import { buildPageMetadata } from "@/shared/lib/seo";
+import { WEBSITE_ROUTES } from "@/widgets/site-shell/routes";
 
 export function generateMetadata(): Promise<Metadata> {
   return buildPageMetadata("about", WEBSITE_ROUTES.about);
